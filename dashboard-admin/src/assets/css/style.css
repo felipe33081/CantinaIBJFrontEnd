@@ -1,0 +1,55 @@
+
+.main-content-only-table-conteiner {
+  overflow-y: auto;
+  padding: 70px 30px;
+  position: relative;
+}
+
+.uk-button {
+  margin: 0;
+  border: none;
+  overflow: visible;
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 30px;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  line-height: 38px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.1s ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+.customTable {
+  position: relative;
+  z-index: 1;
+}
+
+.uk-text-muted {
+  color: #999 !important;
+}
+.uk-text-emphasis {
+  color: #333 !important;
+}
+.uk-text-primary {
+  color: #1e87f0 !important;
+}
+.uk-text-secondary {
+  color: #222 !important;
+}
+.uk-text-success {
+  color: #32d296 !important;
+}
+.uk-text-warning {
+  color: #faa05a !important;
+}
+.uk-text-danger {
+  color: #f0506e !important;
+}

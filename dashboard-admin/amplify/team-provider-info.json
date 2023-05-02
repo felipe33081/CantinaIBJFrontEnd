@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dashboardadmin-dev-224852-authRole",
+      "UnauthRoleArn": "arn:aws:iam::237251303688:role/amplify-dashboardadmin-dev-224852-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::237251303688:role/amplify-dashboardadmin-dev-224852-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-dashboardadmin-dev-224852-deployment",
+      "UnauthRoleName": "amplify-dashboardadmin-dev-224852-unauthRole",
+      "StackName": "amplify-dashboardadmin-dev-224852",
+      "StackId": "arn:aws:cloudformation:us-east-2:237251303688:stack/amplify-dashboardadmin-dev-224852/d57c2020-e566-11ed-8aea-0aba80d5dc39",
+      "AmplifyAppId": "d2fee48su26f2t"
+    },
+    "categories": {
+      "auth": {
+        "dashboardadmin0ec41371": {
+          "userPoolId": "us-east-2_CT2bI5jE6",
+          "userPoolName": "cantinaibjreactappdb0bdf98_userpool_db0bdf98-dev",
+          "webClientId": "it9fu7e0piml2fm1ahsah60gl",
+          "nativeClientId": "it9fu7e0piml2fm1ahsah60gl"
+        }
+      }
+    }
+  }
+}

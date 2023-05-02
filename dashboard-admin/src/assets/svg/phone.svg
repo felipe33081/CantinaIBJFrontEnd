@@ -1,0 +1,14 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="30pt" height="30pt" viewBox="0 0 152 278" preserveAspectRatio="xMidYMid meet" class="element-phone">
+    <g transform="translate(0,278) scale(0.1,-0.1)" fill="#cecece" stroke="none">
+        <path d="M190 2718 c-58 -30 -105 -93 -120 -160 -13 -63 -15 -2281 -1 -2340
+                                17 -71 43 -110 96 -137 l50 -26 537 -3 c531 -2 538 -2 583 19 46 21 91 70 113
+                                122 16 36 18 2348 2 2377 -5 9 -7 20 -4 22 13 13 -64 105 -106 126 -44 22 -44
+                                22 -575 22 -531 0 -531 0 -575 -22z m211 -158 c15 -70 15 -70 358 -70 331 0
+                                351 3 351 54 0 47 19 57 105 54 l80 -3 17 -35 c17 -33 18 -110 18 -1178 l0
+                                -1144 -30 -29 -29 -30 -520 3 c-369 2 -523 6 -531 14 -6 6 -16 29 -21 50 -12
+                                52 -11 2237 1 2289 13 56 31 66 120 63 l74 -3 7 -35z"></path>
+    </g>
+</svg>

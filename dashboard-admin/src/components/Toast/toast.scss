@@ -1,0 +1,91 @@
+#toast-container .toast__container {
+    opacity: 1;
+}
+
+.toast__container {
+    &--error {
+        background-color: #fef4f6;
+        opacity: 1;
+
+        .toast-message, .toast-title {
+            color: #f0506e; 
+        }
+
+        .toast-close-button {
+            color: #f0506e;
+        }
+
+        &::before {
+            content: '\f06a';
+            color: #f0506e;
+        }
+    }
+
+    &--success {
+        background-color: #edfbf6;
+        opacity: 1;
+
+        .toast-message, .toast-title {
+            color: #32d296; 
+        }
+
+        .toast-close-button {
+            color: #32d296;
+        }
+
+        &::before {
+            content: '\f058';
+            color: #32d296;
+        }
+    }
+
+    &--info {
+        background-color: #bbfaff;
+        opacity: 1;
+
+        .toast-message, .toast-title {
+            color: #005eff; 
+        }
+
+        .toast-close-button {
+            color: #005eff;
+        }
+
+        &::before {
+            content: '\f058';
+            color: #005eff;
+        }
+    }
+
+    &::before {
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        left: 18px;
+        position: absolute;
+    }
+}
+
+/* .toast__container.toast__container--error {
+    background-color: #fef4f6;
+    opacity: 1;
+} */
+
+/* .toast__container.toast__container--error::before
+{
+    content: "\f06a";  /* this is your text. You can also use UTF-8 character codes as I do here *
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    left: 18px;
+    position: absolute;
+    color: #f0506e;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+} */
+
+/* .toast__container.toast__container--error .toast-message {
+    color: #f0506e;
+} */
