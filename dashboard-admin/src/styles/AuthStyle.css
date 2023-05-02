@@ -410,7 +410,7 @@
  .amplify-button--primary {
    border-width: 1px;
    /* background: linear-gradient(to right, #2b9348, #fca311); */
-   background-color: #fca311;
+   background-color: #5465ff;
    border-color: transparent;
    color: var(--amplify-components-button-primary-color);
    --amplify-internal-button-disabled-border-color: transparent;
@@ -421,8 +421,8 @@
    --amplify-internal-button-loading-color: var(--amplify-components-button-primary-loading-color);
  }
  .amplify-button--primary:hover {
-   background-color: #e76f51;
-   border-color: #e76f51;
+   background-color: #1525b8;
+   border-color: black;
    color: #e6e6e6;
  }
  .amplify-button--primary:focus {

@@ -7,7 +7,7 @@ export const getOrderList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Order";
+    let url = "http://localhost:8080/v1" + "/Order";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
