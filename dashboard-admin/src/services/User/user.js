@@ -5,7 +5,7 @@ import axios from 'axios';
 export const getUserList = async (props) => {
     const { size, page, email, name, paginationToken, selectedTenant } = props;
     let token = await getToken();
-    var url = "http://localhost:8080/v1" + `/Users?size=${size}&page=${page}`;
+    var url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users?size=${size}&page=${page}`;
 
     url = name ? url + `&filter=name^="${name}"` : url;
 	url = email ? url + `&filter=email^="${email}"` : url;

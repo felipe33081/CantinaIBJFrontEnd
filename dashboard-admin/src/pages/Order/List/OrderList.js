@@ -145,12 +145,12 @@ const OrderList = (props) => {
               moment(createdAt).set("hour", "0").set("minute", "0")?._d;
 
             const filtersValues = {
-              name:
+              customerPersonDisplay:
                 enableFilter &&
-                filters.find((f) => f.column.field === "name")?.value,
-              email:
+                filters.find((f) => f.column.field === "customerPersonDisplay")?.value,
+              customerName:
                 enableFilter &&
-                filters.find((f) => f.column.field === "description")?.value,
+                filters.find((f) => f.column.field === "customerName")?.value,
               initialDate: filterInitialDate,
               finalDate: filterFinalDate,
               page,

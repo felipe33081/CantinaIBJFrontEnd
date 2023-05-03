@@ -89,7 +89,7 @@ const UserList = (props) => {
         tableRef={tableRef}
         title="Usuários"
         columns={[
-          { title: "Operador", field: "name" },
+          { title: "Nome", field: "name" },
           { title: "E-mail", field: "email" },
           {
             title: "Telefone",
