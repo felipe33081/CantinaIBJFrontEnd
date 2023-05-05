@@ -1,8 +1,6 @@
-import { Toast } from "../components";
-
 export default class Helper {
 
-	static statusTheme(status: string) {
+	static statusTheme(status) {
 
 		return status === "Aprovado" ? "#00CD2D" :
 			status === "Efetivada" ? "#00CD2D" :
@@ -15,15 +13,7 @@ export default class Helper {
 									status === "Erro na autorização" ? "#F50057" : null;
 	};
 
-	static parseErrors(message: string, error: any) {
-		if (error?.response?.data?.errors) {
-			Toast.showErrorMessage(error.response.data.errors);
-		} else {
-			Toast.showErrorMessage(message);
-		}
-	};
-
-	static typeStatus = (status: string) => {
+	static typeStatus = (status) => {
 		switch (status) {
 			case "Approved":
 				return "Aprovado";
@@ -34,7 +24,7 @@ export default class Helper {
 		}
 	};
 
-	static codeToMessage(code: string) {
+	static codeToMessage(code) {
 		switch (code) {
 			case "LimitExceededException":
 				return "Limite de tentativas excedido. Tente novamente mais tarde.";
@@ -57,7 +47,7 @@ export default class Helper {
 		}
 	}
 
-	static invalidPasswordMessage(message: string) {
+	static invalidPasswordMessage(message) {
 		if (message.includes('enough')) {
 			return 'A senha não é longa o suficiente';
 		} else if (message.includes('lowercase')) {

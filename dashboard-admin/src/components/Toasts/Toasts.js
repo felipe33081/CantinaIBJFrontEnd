@@ -1,7 +1,7 @@
 import 'toastr/build/toastr.css';
 import './toast.scss';
 import toastr from 'toastr';
-import Helper from 'helpers/message.helpers';
+import Helper from '../../helpers/messages.helpers';
 
 toastr.options.closeButton = true;
 toastr.options.timeOut = 4000;

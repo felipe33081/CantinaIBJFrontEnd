@@ -35,15 +35,12 @@ const UserList = (props) => {
   const { hideActions } = props;
   const navigate = useNavigate();
   const tableRef = React.useRef(null);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    localStorage.getItem("rowsPerPage") || 5
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
-    localStorage.setItem("rowsPerPage", page);
   };
 
   const actions = {

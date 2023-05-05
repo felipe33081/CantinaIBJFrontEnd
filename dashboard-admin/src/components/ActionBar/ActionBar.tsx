@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ImageOutlined, DeleteForeverOutlined, SendOutlined, ThumbUpOutlined, ThumbDownOutlined, FileCopyOutlined } from '@material-ui/icons';
 import { Box, Button, Grid, Typography } from '@material-ui/core';

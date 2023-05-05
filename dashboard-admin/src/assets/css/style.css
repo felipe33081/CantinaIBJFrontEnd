@@ -26,6 +26,23 @@
   transition: 0.1s ease-in-out;
   transition-property: color, background-color, border-color;
 }
+.uk-button:hover {
+  background-color: #020e66 !important;
+}
+
+.save-button{
+  background-color: #5465ff !important;
+  color: white !important;
+  width: 11rem;
+  height: 38px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  font-size: 14px !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.5rem !important;
+}
+.save-button:hover {
+  background-color: #020e66 !important;
+}
 
 .customTable {
   position: relative;

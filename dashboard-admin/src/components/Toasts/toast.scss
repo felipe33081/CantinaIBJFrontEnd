@@ -1,5 +1,7 @@
 #toast-container .toast__container {
     opacity: 1;
+    margin-top: 1.5rem;
+    margin-right: 1.5rem;
 }
 
 .toast__container {
@@ -8,7 +10,9 @@
         opacity: 1;
 
         .toast-message, .toast-title {
-            color: #f0506e; 
+            color: #f0506e;
+            font-family: 'Roboto';
+            font-weight: 400;
         }
 
         .toast-close-button {
@@ -27,6 +31,8 @@
 
         .toast-message, .toast-title {
             color: #32d296; 
+            font-family: 'Roboto';
+            font-weight: 400;
         }
 
         .toast-close-button {
@@ -45,6 +51,8 @@
 
         .toast-message, .toast-title {
             color: #005eff; 
+            font-family: 'Roboto';
+            font-weight: 400;
         }
 
         .toast-close-button {
@@ -58,8 +66,6 @@
     }
 
     &::before {
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
         left: 18px;
         position: absolute;
     }

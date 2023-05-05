@@ -1,7 +1,6 @@
-import { Modal, Grid, Typography } from '@material-ui/core';
+import { Modal, Grid, Typography, Button } from '@material-ui/core';
 import useStyles from './styles/style.modules';
-import Button from 'components/Button/Button';
-import { ModalProps } from 'global/types/types';
+import { ModalProps } from '../../global/types/types';
 
 const ModalComponent = ({ open, onClose, title, subtitle, children, onClick = () => { }, buttonText, disabled, enableButton = true }: ModalProps) => {
 	const classes = useStyles();

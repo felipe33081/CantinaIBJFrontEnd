@@ -12,6 +12,7 @@ import CustomerList from "./pages/Customer/List/CustomerList";
 import ProductList from "./pages/Product/List/ProductList";
 import UserList from "./pages/User/List/UserList";
 import OrderList from "./pages/Order/List/OrderList"
+import CustomerCreate from "./pages/Customer/CreateEdit/CustomerCreate";
 I18n.putVocabularies(translations);
 I18n.setLanguage("pt-BR");
 Amplify.configure(awsExports);
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<MainDash />} />
             <Route path="/pedido" element={<OrderList />} />
             <Route path="/cliente" element={<CustomerList />} />
+            <Route path="/cliente/novo" element={<CustomerCreate />} />
             <Route path="/produto" element={<ProductList />} />
             <Route path="/usuario" element={<UserList />} />
           </Routes>

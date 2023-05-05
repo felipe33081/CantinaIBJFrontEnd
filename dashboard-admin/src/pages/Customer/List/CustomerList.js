@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getCustomerList } from "../../../services/Customer/Customer.js";
+import {
+  getCustomerList,
+  deleteCustomerById,
+} from "../../../services/Customer/customers";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import { TablePagination, Button, Typography } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
@@ -17,19 +20,31 @@ const CustomerList = (props) => {
   const { hideActions } = props;
   const navigate = useNavigate();
   const tableRef = React.useRef(null);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    localStorage.getItem("rowsPerPage") || 5
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
-    localStorage.setItem("rowsPerPage", page);
   };
+
+  const handleDelete = () => {
+    selectedRows.map(row => {
+      deleteCustomerById(row?.id)
+      .then(_ => {
+        tableRef.current.onQueryChange();
+      })
+      .catch(error => {
+        tableRef.current.onQueryChange();
+      })
+    })
+    setSelectedRows([]);
+  }
 
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
+    onDelete: selectedRows.length > 0 && handleDelete,
   };
 
   return (
@@ -37,8 +52,8 @@ const CustomerList = (props) => {
       {<ActionBar {...actions} hideSubmit={true} />}
       {!hideActions && (
         <>
-          <div className="uk-width-auto@m uk-width-1-1">
-            <div className="uk-width-auto@m uk-width-1-1">
+          <div>
+            <div>
               <Link
                 to="/cliente/novo"
                 style={{ backgroundColor: "#5465ff", textDecoration: "none" }}
@@ -67,7 +82,7 @@ const CustomerList = (props) => {
         </>
       )}
       <MaterialTable
-        style={{ zIndex:1}}
+        style={{ zIndex: 1 }}
         tableRef={tableRef}
         title="Clientes"
         columns={[
@@ -101,6 +116,7 @@ const CustomerList = (props) => {
               />
             ),
           },
+          { title: "Criado por", field: "createdBy" }
         ].filter((x) => x !== undefined)}
         actions={[
           {
@@ -111,9 +127,22 @@ const CustomerList = (props) => {
               navigate(`/cliente/editar?id=${rowData.id}`),
           },
         ]}
+        editable={{
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              deleteCustomerById(oldData.id)
+                .then((_) => {
+                  resolve();
+                })
+                .catch((error) => {
+                  resolve();
+                });
+            }),
+        }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
-            const { page, pageSize, search, filters, orderBy, orderDirection  } = allParams;
+            const { page, pageSize, search, filters, orderBy, orderDirection } =
+              allParams;
 
             const createdAt = filters.find(
               (f) => f.column.field === "createdAt"
@@ -144,7 +173,7 @@ const CustomerList = (props) => {
               size: pageSize,
               searchString: search,
               orderByField: orderBy?.field,
-              orderByDirection: orderDirection
+              orderByDirection: orderDirection,
             };
 
             getCustomerList(filtersValues)
@@ -176,12 +205,14 @@ const CustomerList = (props) => {
           ),
         }}
         options={{
+          selection: true,
           actionsColumnIndex: -1,
           pageSize: rowsPerPage,
           debounceInterval: 500,
           // searchAutoFocus: true,
           filtering: enableFilter,
         }}
+        onSelectionChange={(rows) => setSelectedRows(rows)}
       />
     </ContentContainer>
   );

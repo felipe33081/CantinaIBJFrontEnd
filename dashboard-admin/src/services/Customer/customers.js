@@ -1,0 +1,77 @@
+import { getToken } from '../../repository/AuthAmplify';
+import { pickBy } from 'lodash';
+import axios from 'axios';
+import Toast from '../../components/Toasts/Toasts';
+
+export const getCustomerList = async ( filters) => {
+    filters.orderBy = filters?.orderByField != undefined ? filters?.orderByField + "_" + filters?.orderByDirection.toUpperCase() : undefined;
+    const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
+
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` },
+        params
+    }
+    try{
+        let result = await axios.get(url, config);
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível obter a lista de clientes");
+		}
+		throw err;
+	}
+}
+
+export const postCustomer = async ( data ) => {
+    
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.post(url, data, config);
+        Toast.showSuccessMessage("Cliente adicionado com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível cadastrar um cliente");
+		}
+		throw err;
+	}
+}
+
+export const deleteCustomerById = async ( id ) => {
+    
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.delete(url, config);
+        Toast.showSuccessMessage("Cliente excluído com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível excluir um cliente");
+		}
+		throw err;
+	}
+}

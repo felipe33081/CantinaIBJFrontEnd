@@ -18,6 +18,6 @@ export const getUserList = async (props) => {
         return result.data;
     }
     catch (error){
-        return error;
+        throw error;
     }
 }
