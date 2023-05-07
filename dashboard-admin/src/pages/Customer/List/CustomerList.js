@@ -124,7 +124,7 @@ const CustomerList = (props) => {
             tooltip: "Editar",
             position: "row",
             onClick: (_, rowData) =>
-              navigate(`/cliente/editar?id=${rowData.id}`),
+              navigate(`/cliente/editar/${rowData.id}`),
           },
         ]}
         editable={{

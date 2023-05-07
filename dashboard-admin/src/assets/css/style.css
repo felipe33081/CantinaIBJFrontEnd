@@ -30,6 +30,16 @@
   background-color: #020e66 !important;
 }
 
+.loading-editing {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  color: black;
+}
+
 .save-button{
   background-color: #5465ff !important;
   color: white !important;
@@ -37,8 +47,7 @@
   height: 38px;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
   font-size: 14px !important;
-  margin-top: 2rem !important;
-  margin-bottom: 1.5rem !important;
+  margin-top: 1.5rem !important;
 }
 .save-button:hover {
   background-color: #020e66 !important;
