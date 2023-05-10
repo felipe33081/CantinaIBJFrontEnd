@@ -2,21 +2,12 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getUserList } from "../../../services/User/user";
+import { getUserList, deleteUserById } from "../../../services/User/user";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import {
-  TablePagination,
-  Button,
-  Typography,
-  Select,
-  MenuItem,
-  TextField,
-} from "@material-ui/core";
+import { TablePagination, Button, Typography } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import DatePicker from "@mui/lab/DatePicker";
-import moment from "moment";
 import Helper from "../../../helpers/format.helpers";
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
 
@@ -37,14 +28,31 @@ const UserList = (props) => {
   const tableRef = React.useRef(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { setTitle } = useHeader();
+  const [paginationState, setPaginationState] = useState({ 0: null });
   const [enableFilter, setEnableFilter] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
+    setPaginationState({ 0: null });
+  };
+
+  const handleDelete = () => {
+    selectedRows.map((row) => {
+      deleteUserById(row?.id)
+        .then((_) => {
+          tableRef.current.onQueryChange();
+        })
+        .catch((error) => {
+          tableRef.current.onQueryChange();
+        });
+    });
+    setSelectedRows([]);
   };
 
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
+    onDelete: selectedRows.length > 0 && handleDelete,
   };
 
   return (
@@ -94,29 +102,29 @@ const UserList = (props) => {
             filtering: false,
             render: ({ phoneNumber }) => Helper.formatPhoneNumber(phoneNumber),
           },
-          {
-            title: "Verificação do E-mail",
-            field: "emailVerified",
-            filtering: false,
-            render: ({ emailVerified }) => (
-              <strong
-                className={`uk-text-${
-                  emailVerified !== true ? "danger" : "success"
-                }`}
-              >
-                {emailVerified == true
-                  ? "E-mail verificado"
-                  : "E-mail não verificado"}
-              </strong>
-            ),
-            draggable: false,
-            cellStyle: {
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              maxWidth: 200,
-            },
-          },
+          // {
+          //   title: "Verificação do E-mail",
+          //   field: "emailVerified",
+          //   filtering: false,
+          //   render: ({ emailVerified }) => (
+          //     <strong
+          //       className={`uk-text-${
+          //         emailVerified !== true ? "danger" : "success"
+          //       }`}
+          //     >
+          //       {emailVerified == true
+          //         ? "E-mail verificado"
+          //         : "E-mail não verificado"}
+          //     </strong>
+          //   ),
+          //   draggable: false,
+          //   cellStyle: {
+          //     textOverflow: "ellipsis",
+          //     whiteSpace: "nowrap",
+          //     overflow: "hidden",
+          //     maxWidth: 200,
+          //   },
+          // },
           {
             title: "Status",
             field: "userStatus",
@@ -146,10 +154,21 @@ const UserList = (props) => {
             icon: EditIcon,
             tooltip: "Editar",
             position: "row",
-            onClick: (_, rowData) =>
-              navigate(`/usuario/editar?id=${rowData.id}`),
+            onClick: (_, rowData) => navigate(`/usuario/editar/${rowData.id}`),
           },
         ]}
+        editable={{
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              deleteUserById(oldData.id)
+                .then((_) => {
+                  resolve();
+                })
+                .catch((error) => {
+                  resolve();
+                });
+            }),
+        }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
             const { page, pageSize, filters } = allParams;
@@ -162,7 +181,8 @@ const UserList = (props) => {
                 filters.find((f) => f.column.field === "email")?.value,
               name:
                 enableFilter &&
-                filters.find((f) => f.column.field === "name")?.value
+                filters.find((f) => f.column.field === "name")?.value,
+              paginationToken: paginationState[page],
             };
 
             getUserList(filtersValues)
@@ -181,6 +201,11 @@ const UserList = (props) => {
                     totalCount: 0,
                   });
                 }
+                var paginationToken = result?.paginationToken;
+                setPaginationState({
+                  ...paginationState,
+                  [page + 1]: paginationToken,
+                });
               })
               .catch((err) => reject(err));
           })
@@ -194,12 +219,14 @@ const UserList = (props) => {
           ),
         }}
         options={{
+          selection: true,
           actionsColumnIndex: -1,
           pageSize: rowsPerPage,
           debounceInterval: 500,
           // searchAutoFocus: true,
           filtering: enableFilter,
         }}
+        onSelectionChange={(rows) => setSelectedRows(rows)}
       />
     </ContentContainer>
   );

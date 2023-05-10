@@ -30,6 +30,11 @@
   background-color: #020e66 !important;
 }
 
+.tab-panel {
+  background-color: #5465ff !important;
+  color: white;
+}
+
 .loading-editing {
   position: fixed;
   top: 50%;
@@ -38,6 +43,29 @@
   font-size: 2rem;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
   color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-editing::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 6px solid #5465ff;
+  border-color: #5465ff transparent #5465ff transparent;
+  animation: loading 1.2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .save-button{
@@ -48,9 +76,37 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
   font-size: 14px !important;
   margin-top: 1.5rem !important;
+  margin-right: 1.5rem !important;
 }
 .save-button:hover {
   background-color: #020e66 !important;
+}
+
+.add-button{
+  background-color: #29bf12 !important;
+  color: white !important;
+  width: 11rem;
+  height: 38px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  font-size: 14px !important;
+  margin-top: 1.5rem !important;
+  margin-right: 1rem !important;
+}
+.add-button:hover {
+  background-color: #007200 !important;
+}
+
+.remove-button{
+  background-color: #df2935 !important;
+  color: white !important;
+  width: 11rem;
+  height: 38px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  font-size: 14px !important;
+  margin-top: 1.5rem !important;
+}
+.remove-button:hover {
+  background-color: #9e2a2b !important;
 }
 
 .customTable {
