@@ -45,7 +45,7 @@ export const getCustomerById = async ( id ) => {
 		if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível excluir um cliente");
+			Toast.showErrorMessage("Não foi possível obter os dados do cliente");
 		}
 		throw err;
 	}
