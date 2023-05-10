@@ -5,16 +5,26 @@ import {
   putUserEdit,
   getUserById,
   getUserGroupsList,
+  addUserGroupEdit,
+  removeUserGroupEdit,
 } from "../../../services/User/user";
-import { Box, TextField, Button, Grid } from "@material-ui/core";
+import {
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Modal
+} from "@material-ui/core";
 import { useNavigate, useParams } from "react-router-dom";
-import { useHeader } from "../../../contexts/header";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import CloseIcon from "@mui/icons-material/Close";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 import TabPanel from "../../../components/TabPanel/TabPanel";
 import { a11yProps } from "../../../components/TabPanel/TabPanel";
@@ -37,6 +47,9 @@ const UserEdit = () => {
   const [emailVerified, setEmailVerified] = useState("");
   const [value, setValue] = React.useState(0);
   const [data, setData] = useState([]);
+  const [groupName, setGroupName] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = useState(false);
 
   useEffect(() => {
     const fetchUserGroups = async () => {
@@ -87,6 +100,28 @@ const UserEdit = () => {
     });
   };
 
+  const handleSaveAddGroup = async (event) => {
+    event.preventDefault();
+    const data = {
+      groupName,
+    };
+    await addUserGroupEdit(id, data).then(() => {
+      setOpenModal(false);
+      window.location.reload();
+    });
+  };
+
+  const handleSaveRemoveGroup = async (event) => {
+    event.preventDefault();
+    const data = {
+      groupName,
+    };
+    await removeUserGroupEdit(id, data).then(() => {
+      setOpenModal(false);
+      window.location.reload();
+    });
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -109,6 +144,8 @@ const UserEdit = () => {
                 <Tab label="Grupos" {...a11yProps(1)} />
               </Tabs>
             </AppBar>
+
+            {/* Tab menu de Usuário */}
             <TabPanel value={value} index={0}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -173,7 +210,10 @@ const UserEdit = () => {
                 Salvar
               </Button>
             </TabPanel>
+
+            {/* Tab menu de Grupos */}
             <TabPanel value={value} index={1}>
+              {/* Listagem dos grupos existentes naquele usuário selecionado */}
               <MaterialTable
                 style={{ zIndex: 1 }}
                 tableRef={tableRef}
@@ -184,12 +224,127 @@ const UserEdit = () => {
                 ]}
                 data={data}
               />
-              <Button className="add-button" variant="contained">
-                <SaveOutlinedIcon style={{ color: "#fff" }} />
+
+              {/* Modal de adicionar grupo ao usuário, envia requisição pra endpoint especifico de add */}
+              <Modal open={openModal} onClose={() => setOpenModal(false)}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "background.paper",
+                    boxShadow: 24,
+                    p: 4,
+                    maxWidth: 400,
+                  }}
+                >
+                  <FormControl fullWidth variant="outlined" sx={{ mb: 3 }}>
+                    <InputLabel id="groupName">Grupo</InputLabel>
+                    <Select
+                      labelId="groupName"
+                      id="groupName"
+                      value={groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      label="Nome do grupo"
+                      required={true}
+                    >
+                      <MenuItem value={"MasterAdmin"}>
+                        Administrador Master
+                      </MenuItem>
+                      <MenuItem value={"Admin"}>Administrador</MenuItem>
+                      <MenuItem value={"User"}>Usuário</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button
+                    className="save-button"
+                    onClick={handleSaveAddGroup}
+                    variant="contained"
+                  >
+                    <SaveOutlinedIcon />
+                    Salvar
+                  </Button>
+                  <Button
+                    className="close-button"
+                    onClick={() => setOpenModal(false)}
+                    variant="contained"
+                  >
+                    <CloseIcon />
+                    Fechar
+                  </Button>
+                </Box>
+              </Modal>
+
+              {/* Modal de remover grupo do usuário, envia requisição pra endpoint especifico de remove */}
+              <Modal
+                open={openRemoveModal}
+                onClose={() => setOpenRemoveModal(false)}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "background.paper",
+                    boxShadow: 24,
+                    p: 4,
+                    maxWidth: 400,
+                  }}
+                >
+                  <FormControl fullWidth variant="outlined" sx={{ mb: 3 }}>
+                    <InputLabel id="groupName">Grupo</InputLabel>
+                    <Select
+                      labelId="groupName"
+                      id="groupName"
+                      value={groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      label="Nome do grupo"
+                      required={true}
+                    >
+                      <MenuItem value={"MasterAdmin"}>
+                        Administrador Master
+                      </MenuItem>
+                      <MenuItem value={"Admin"}>Administrador</MenuItem>
+                      <MenuItem value={"User"}>Usuário</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button
+                    className="save-button"
+                    onClick={handleSaveRemoveGroup}
+                    variant="contained"
+                  >
+                    <SaveOutlinedIcon />
+                    Salvar
+                  </Button>
+                  <Button
+                    className="close-button"
+                    onClick={() => setOpenRemoveModal(false)}
+                    variant="contained"
+                  >
+                    <CloseIcon />
+                    Fechar
+                  </Button>
+                </Box>
+              </Modal>
+
+              {/* Botão de adicionar grupo ao usuário */}
+              <Button
+                className="add-button"
+                variant="contained"
+                onClick={() => setOpenModal(true)}
+              >
+                <AddIcon />
                 Adicionar
               </Button>
-              <Button className="remove-button" variant="contained">
-                <SaveOutlinedIcon style={{ color: "#fff" }} />
+
+              {/* Botão de remove grupo do usuário */}
+              <Button
+                className="remove-button"
+                variant="contained"
+                onClick={() => setOpenRemoveModal(true)}
+              >
+                <RemoveIcon />
                 Remover
               </Button>
             </TabPanel>

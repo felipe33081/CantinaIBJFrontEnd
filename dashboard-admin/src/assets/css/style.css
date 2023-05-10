@@ -82,8 +82,22 @@
   background-color: #020e66 !important;
 }
 
+.close-button{
+  background-color: #8a8a8a !important;
+  color: white !important;
+  width: 11rem;
+  height: 38px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  font-size: 14px !important;
+  margin-top: 1.5rem !important;
+  margin-right: 1.5rem !important;
+}
+.close-button:hover {
+  background-color: #4b4b4b !important;
+}
+
 .add-button{
-  background-color: #29bf12 !important;
+  background-color: #4cb444 !important;
   color: white !important;
   width: 11rem;
   height: 38px;
@@ -97,7 +111,7 @@
 }
 
 .remove-button{
-  background-color: #df2935 !important;
+  background-color: #cc2017 !important;
   color: white !important;
   width: 11rem;
   height: 38px;
@@ -106,7 +120,7 @@
   margin-top: 1.5rem !important;
 }
 .remove-button:hover {
-  background-color: #9e2a2b !important;
+  background-color: #640507 !important;
 }
 
 .customTable {
