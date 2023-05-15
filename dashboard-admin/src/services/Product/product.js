@@ -1,6 +1,7 @@
 import { getToken } from '../../repository/AuthAmplify';
 import { pickBy } from 'lodash';
 import axios from 'axios';
+import Toast from '../../components/Toasts/Toasts';
 
 export const getProductList = async ( filters) => {
     filters.orderBy = filters?.orderByField != undefined ? filters?.orderByField + "_" + filters?.orderByDirection.toUpperCase() : undefined;
@@ -17,7 +18,106 @@ export const getProductList = async ( filters) => {
         let result = await axios.get(url, config);
         return result.data;
     }
-    catch (error){
-        return error;
+    catch (err){
+        if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível obter a lista de clientes");
+		}
+		throw err;
     }
+}
+
+export const getProductById = async (id) => {
+    
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+    
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.get(url, config);
+        return result;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível excluir um cliente");
+		}
+		throw err;
+	}
+}
+
+export const postProductCreate = async ( data ) => {
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.post(url, data, config);
+        Toast.showSuccessMessage("Produto adicionado com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível cadastrar o produto");
+		}
+		throw err;
+	}
+} 
+
+export const putProductEdit = async ( id, data ) => {
+    
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.put(url, data, config);
+        Toast.showSuccessMessage("Produto atualizado com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível atualizar um produto");
+		}
+		throw err;
+	}
+}
+
+export const deleteProductById = async ( id ) => {
+    
+    let token = await getToken();
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.delete(url, config);
+        Toast.showSuccessMessage("Produto excluído com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível excluir um produto");
+		}
+		throw err;
+	}
 }

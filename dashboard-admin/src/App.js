@@ -10,6 +10,8 @@ import { Amplify, I18n } from "aws-amplify";
 import awsExports from "./aws-exports";
 import CustomerList from "./pages/Customer/List/CustomerList";
 import ProductList from "./pages/Product/List/ProductList";
+import ProductCreate from "./pages/Product/CreateEdit/ProductCreate"
+import ProductEdit from "./pages/Product/CreateEdit/ProductEdit"
 import UserList from "./pages/User/List/UserList";
 import OrderList from "./pages/Order/List/OrderList"
 import CustomerCreate from "./pages/Customer/CreateEdit/CustomerCreate";
@@ -31,6 +33,8 @@ function App() {
             <Route path="/cliente/novo" element={<CustomerCreate />} />
             <Route exact path="/cliente/editar/:id" element={<CustomerEdit />} />
             <Route path="/produto" element={<ProductList />} />
+            <Route path="/produto/novo" element={<ProductCreate />} />
+            <Route exact path="/produto/editar/:id" element={<ProductEdit />} />
             <Route path="/usuario" element={<UserList />} />
           </Routes>
         </div>
