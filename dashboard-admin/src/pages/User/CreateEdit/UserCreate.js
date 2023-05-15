@@ -1,63 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ContentContainer from "../../../containers/ContentContainer";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import {
-  putCustomerEdit,
-  getCustomerById,
-} from "../../../services/Customer/customers";
-import { Box, TextField, Button, Grid, Typography } from "@material-ui/core";
-import { useNavigate, useParams } from "react-router-dom";
-import { useHeader } from "../../../contexts/header";
+import { postUserCreate } from "../../../services/User/user";
+import { Box, TextField, Button, Grid } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 
-const CustomerEdit = () => {
-  const [customerLoaded, setCustomerLoaded] = useState(false);
+const UserCreate = () => {
   const navigate = useNavigate();
-  const { setTitle } = useHeader();
-  const { id } = useParams(); // Captura o ID do cliente da URL
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [balance, setBalance] = useState("");
-
-  useEffect(() => {
-    const fetchCustomer = async () => {
-      try {
-        const response = await getCustomerById(id);
-        const customerData = response.data;
-        setName(customerData.name);
-        setEmail(customerData.email);
-        setPhone(customerData.phone);
-        setBalance(customerData.balance);
-        setCustomerLoaded(true);
-      } catch (error) {
-        console.log(error);
-        setCustomerLoaded(false);
-      }
-    };
-
-    fetchCustomer();
-  }, [id]);
-
-  if (!customerLoaded) {
-    return <div className="loading-editing"></div>;
-  }
+  const [phoneNumber, setPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const customer = {
+    const user = {
       name,
       email,
-      phone,
+      phoneNumber,
+      password,
     };
-    try {
-      const response = await putCustomerEdit(id, customer);
-      console.log(response);
-      navigate("/cliente");
-    } catch (error) {
-      console.log(error);
-    }
+    await postUserCreate(user).then(() => {
+      navigate("/usuario");
+    });
   };
 
   return (
@@ -66,7 +33,8 @@ const CustomerEdit = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Atualizar cliente</h1>
+            <h1>Cadastro de usuário</h1>
+
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -76,7 +44,6 @@ const CustomerEdit = () => {
                   label="Nome"
                   required={true}
                   variant="outlined"
-                  value={name}
                   onChange={(e) => setName(e.target.value)}
                   sx={{ mb: 3 }}
                 />
@@ -87,7 +54,7 @@ const CustomerEdit = () => {
                   label="Email"
                   fullWidth
                   variant="outlined"
-                  value={email}
+                  required={true}
                   placeholder="email@host.com"
                   onChange={(e) => setEmail(e.target.value)}
                   sx={{ mb: 3 }}
@@ -95,32 +62,31 @@ const CustomerEdit = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <PhoneMaskInput
-                  id="phone"
+                  id="phoneNumber"
                   label="Telefone"
                   fullWidth
                   required={true}
-                  value={phone}
                   placeholder="(00) 00000-0000"
                   onChange={(e) => setPhone(e.target.value)}
                   sx={{ mb: 3 }}
                 />
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={12}>
                 <TextField
-                  id="balance"
-                  label="Saldo"
+                  id="password"
+                  label="Senha Temporária"
                   fullWidth
                   variant="outlined"
                   required={true}
-                  value={balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                  disabled={true}
+                  placeholder="Senha@123"
+                  onChange={(e) => setPassword(e.target.value)}
                   sx={{ mb: 3 }}
                 />
               </Grid>
             </Grid>
             <Button className="save-button" type="submit" variant="contained">
               <SaveOutlinedIcon style={{ color: "#fff" }} />
-              Salvar
+              Cadastrar
             </Button>
           </form>
         </Box>
@@ -129,4 +95,4 @@ const CustomerEdit = () => {
   );
 };
 
-export default CustomerEdit;
+export default UserCreate;
