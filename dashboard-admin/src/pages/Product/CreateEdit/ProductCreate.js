@@ -49,16 +49,6 @@ return (
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            {/* <TextField
-                             id="price" 
-                             fullWidth
-                             label="Preço"
-                             required={true}
-                             variant="outlined"
-                             onChange={(e) => setPrice(e.target.value)}
-                             sx={{ mb: 3}}
-                             InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                            /> */}
                             <FormattedInputs onChange={(e) => setPrice(e.target.value)}/>
                         </Grid>
                         <Grid item xs={12} sm={4}>
