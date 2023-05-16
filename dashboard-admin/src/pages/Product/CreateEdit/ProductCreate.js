@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import { Box, Button, Grid, TextField, InputAdornment } from "@material-ui/core";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import ContentContainer from "../../../containers/ContentContainer";
 import { postProductCreate } from "../../../services/Product/product";
@@ -56,6 +56,7 @@ return (
                              variant="outlined"
                              onChange={(e) => setPrice(e.target.value)}
                              sx={{ mb: 3}}
+                             InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
