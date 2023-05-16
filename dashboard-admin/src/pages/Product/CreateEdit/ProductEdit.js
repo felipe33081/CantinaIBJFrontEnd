@@ -5,6 +5,7 @@ import ContentContainer from "../../../containers/ContentContainer"
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx"
 import { Box, Button, Grid, InputAdornment, TextField } from "@material-ui/core"
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined"
+import FormattedInputs from "./FormattedInputs"
 
 const ProductEdit = () => {
     const [productLoaded, setProductLoader] = useState(false)
@@ -77,18 +78,7 @@ const ProductEdit = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField 
-                            id="price"
-                            name="price"
-                            fullWidth
-                            label="Preço"
-                            required={true}
-                            variant="outlined"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            sx={{ mb: 3 }}
-                            InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                            />
+                        <FormattedInputs onChange={(e) => setPrice(e.target.value)}/>
                         </Grid>
                         <Grid item xs={12} sm={10}>
                             <TextField 

@@ -5,6 +5,7 @@ import { postProductCreate } from "../../../services/Product/product";
 import { useNavigate } from "react-router";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined"
 import { useState } from "react";
+import FormattedInputs from "./FormattedInputs.js";
 
 const ProductCreate = () => {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ return (
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
+                            {/* <TextField
                              id="price" 
                              fullWidth
                              label="Preço"
@@ -57,7 +58,8 @@ return (
                              onChange={(e) => setPrice(e.target.value)}
                              sx={{ mb: 3}}
                              InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                            />
+                            /> */}
+                            <FormattedInputs onChange={(e) => setPrice(e.target.value)}/>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
