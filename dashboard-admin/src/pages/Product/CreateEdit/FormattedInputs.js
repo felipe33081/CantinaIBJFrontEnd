@@ -37,29 +37,22 @@ NumericFormatCustom.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default function FormattedInputs() {
-  const [values, setValues] = React.useState({
-    numberformat: '1320',
-  });
-
+export default function FormattedInputs({ onChange, price }) {
   const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+    onChange(event);
   };
 
   return (
-    <Box>   
+    <Box>
       <TextField
         id="price"
         fullWidth
         label="Preço"
         required={true}
         variant="outlined"
-        value={values.numberformat}
+        value={price}
+        onChange={handleChange}
         name="numberformat"
-        sx={{ mb: 3}}
         InputProps={{
           inputComponent: NumericFormatCustom,
         }}
