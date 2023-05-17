@@ -51,7 +51,7 @@ const ProductEdit = () => {
   }, [id]);
 
   if (!productLoaded) {
-    return <div className="loading-editing">Loading...</div>;
+    return <div className="loading-editing"></div>;
   }
 
   const handleSubmit = async (event) => {
@@ -61,6 +61,7 @@ const ProductEdit = () => {
       description,
       price,
       quantity,
+      disponibility
     };
     try {
       const response = await putProductEdit(id, product);

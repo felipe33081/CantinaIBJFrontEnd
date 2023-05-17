@@ -41,7 +41,7 @@ const CustomerEdit = () => {
   }, [id]);
 
   if (!customerLoaded) {
-    return <div className="loading-editing">Loading...</div>;
+    return <div className="loading-editing"></div>;
   }
 
   const handleSubmit = async (event) => {
