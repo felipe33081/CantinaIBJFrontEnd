@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getProductList } from "../../../services/Product/product.js";
+import { getProductList, deleteProductById } from "../../../services/Product/product.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import { TablePagination, Button, Typography } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
@@ -20,13 +20,28 @@ const ProductList = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
   };
 
+  const handleDelete = () => {
+    selectedRows.map(row => {
+      deleteProductById(row?.id)
+      .then(_ => {
+        tableRef.current.onQueryChange();
+      })
+      .catch(error => {
+        tableRef.current.onQueryChange();
+      })
+    })
+    setSelectedRows([]);
+  }
+
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
+    onDelete: selectedRows.length > 0 && handleDelete,
   };
 
   return (
@@ -34,8 +49,8 @@ const ProductList = (props) => {
       {<ActionBar {...actions} hideSubmit={true} />}
       {!hideActions && (
         <>
-          <div className="uk-width-auto@m uk-width-1-1">
-            <div className="uk-width-auto@m uk-width-1-1">
+          <div>
+            <div>
               <Link
                 to="/produto/novo"
                 style={{ backgroundColor: "#5465ff", textDecoration: "none" }}
@@ -64,7 +79,7 @@ const ProductList = (props) => {
         </>
       )}
       <MaterialTable
-        style={{ zIndex:1}}
+        style={{ zIndex: 1 }}
         tableRef={tableRef}
         title="Produtos"
         columns={[
@@ -129,12 +144,25 @@ const ProductList = (props) => {
             tooltip: "Editar",
             position: "row",
             onClick: (_, rowData) =>
-              navigate(`/produto/editar?id=${rowData.id}`),
+              navigate(`/produto/editar/${rowData.id}`),
           },
         ]}
+        editable={{
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              deleteProductById(oldData.id)
+                .then((_) => {
+                  resolve();
+                })
+                .catch((error) => {
+                  resolve();
+                });
+            }),
+        }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
-            const { page, pageSize, search, filters, orderBy, orderDirection } = allParams;
+            const { page, pageSize, search, filters, orderBy, orderDirection } = 
+              allParams;
 
             const createdAt = filters.find(
               (f) => f.column.field === "createdAt"
@@ -197,13 +225,15 @@ const ProductList = (props) => {
           ),
         }}
         options={{
+          selection: true,
           actionsColumnIndex: -1,
           pageSize: rowsPerPage,
           debounceInterval: 500,
-          exportButton: true,
+          // exportButton: true,
           // searchAutoFocus: true,
           filtering: enableFilter,
         }}
+        onSelectionChange={(rows) => setSelectedRows(rows)}
       />
     </ContentContainer>
   );
