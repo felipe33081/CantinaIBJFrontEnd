@@ -53,7 +53,7 @@ const ProductList = (props) => {
             <div>
               <Link
                 to="/produto/novo"
-                style={{ backgroundColor: "#5465ff", textDecoration: "none" }}
+                style={{ backgroundColor: "#3a86ff", textDecoration: "none" }}
                 className="uk-button"
               >
                 <i

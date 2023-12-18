@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
-import Logo from "../imgs/logo.png";
+import Logo from "../imgs/LOGO_IBJ1.png";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../data/Data";
 import { UilBars } from "@iconscout/react-unicons";
@@ -96,9 +96,6 @@ const Sidebar = () => {
         {/* logo */}
         <div className="logo">
           <img src={Logo} alt="logo" />
-          <span>
-            I<span>B</span>J
-          </span>
         </div>
 
         <div className="menu">
@@ -178,7 +175,7 @@ const Sidebar = () => {
           })}
           {/* signoutIcon */}
           <div className="buttonLogout">
-            <Button onClick={handleLogout} fullWidth>
+            <Button className="buttonColor" onClick={handleLogout} fullWidth>
               <UilSignOutAlt />
               Sair
             </Button>

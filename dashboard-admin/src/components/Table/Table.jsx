@@ -44,7 +44,7 @@ const makeStyle = (status) => {
 export default function BasicTable() {
   return (
     <div className="Table">
-      <h3>Pedidos recentes</h3>
+      <h3 className="titulosh1">Pedidos recentes</h3>
       <TableContainer
         component={Paper}
         style={{ boxShadow: "0px 13px 20px 0px #80808029" }}

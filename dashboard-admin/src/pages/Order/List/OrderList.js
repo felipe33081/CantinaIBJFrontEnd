@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getOrderList } from "../../../services/Order/order.js";
+import { getOrderList, deleteOrderById } from "../../../services/Order/order.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import { TablePagination, Button, Typography } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
@@ -20,13 +20,28 @@ const OrderList = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
   };
 
+  const handleDelete = () => {
+    selectedRows.map(row => {
+      deleteOrderById(row?.id)
+      .then(_ => {
+        tableRef.current.onQueryChange();
+      })
+      .catch(error => {
+        tableRef.current.onQueryChange();
+      })
+    })
+    setSelectedRows([]);
+  }
+
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
+    onDelete: selectedRows.length > 0 && handleDelete,
   };
 
   return (
@@ -38,7 +53,7 @@ const OrderList = (props) => {
             <div className="uk-width-auto@m uk-width-1-1">
               <Link
                 to="/pedido/novo"
-                style={{ backgroundColor: "#5465ff", textDecoration: "none" }}
+                style={{ backgroundColor: "#3a86ff", textDecoration: "none" }}
                 className="uk-button"
               >
                 <i
@@ -68,8 +83,9 @@ const OrderList = (props) => {
         tableRef={tableRef}
         title="Pedidos"
         columns={[
-          { title: "Nome cliente c/ cadastro", field: "customerPersonDisplay" },
-          { title: "Nome cliente s/ cadastro", field: "customerName" },
+          { title: "Id", field: "id" },
+          { title: "Nome cliente c/ cadastro", field: "customerPersonDisplay", filtering: false },
+          { title: "Nome cliente s/ cadastro", field: "customerName", filtering: false },
           {
             title: "Valor total",
             field: "totalValue",
@@ -77,19 +93,19 @@ const OrderList = (props) => {
             render: ({ totalValue }) => Helper.formatCurrencyAsIs(totalValue),
           },
           { title: "Status", field: "statusDisplay" },
-          { title: "Tipo de pagamento", field: "paymentOfTypeDisplay", filtering: false },
-          {
-            title: "Valor do pagamento",
-            field: "paymentValue",
-            filtering: false,
-            render: ({ paymentValue }) => Helper.formatCurrencyAsIs(paymentValue),
-          },
-          {
-            title: "Troco",
-            field: "changeValue",
-            filtering: false,
-            render: ({ changeValue }) => Helper.formatCurrencyAsIs(changeValue),
-          },
+          // { title: "Tipo de pagamento", field: "paymentOfTypeDisplay", filtering: false },
+          // {
+          //   title: "Valor do pagamento",
+          //   field: "paymentValue",
+          //   filtering: false,
+          //   render: ({ paymentValue }) => Helper.formatCurrencyAsIs(paymentValue),
+          // },
+          // {
+          //   title: "Troco",
+          //   field: "changeValue",
+          //   filtering: false,
+          //   render: ({ changeValue }) => Helper.formatCurrencyAsIs(changeValue),
+          // },
           {
             title: "Criado em",
             field: "createdAt",
@@ -111,7 +127,7 @@ const OrderList = (props) => {
               />
             ),
           },
-          { title: "Criado por", field: "createdBy" }
+          { title: "Criado por", field: "createdBy", filtering: false }
         ].filter((x) => x !== undefined)}
         actions={[
           {
@@ -122,6 +138,18 @@ const OrderList = (props) => {
               navigate(`/pedido/editar?id=${rowData.id}`),
           },
         ]}
+        editable={{
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              deleteOrderById(oldData.id)
+                .then((_) => {
+                  resolve();
+                })
+                .catch((error) => {
+                  resolve();
+                });
+            }),
+        }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
             const { page, pageSize, search, filters, orderBy, orderDirection } = allParams;
@@ -143,6 +171,9 @@ const OrderList = (props) => {
               moment(createdAt).set("hour", "0").set("minute", "0")?._d;
 
             const filtersValues = {
+              id:
+                enableFilter &&
+                filters.find((f) => f.column.field === "id")?.value,
               customerPersonDisplay:
                 enableFilter &&
                 filters.find((f) => f.column.field === "customerPersonDisplay")?.value,
@@ -187,12 +218,14 @@ const OrderList = (props) => {
           ),
         }}
         options={{
+          selection: true,
           actionsColumnIndex: -1,
           pageSize: rowsPerPage,
           debounceInterval: 500,
           // searchAutoFocus: true,
           filtering: enableFilter,
         }}
+        onSelectionChange={(rows) => setSelectedRows(rows)}
       />
     </ContentContainer>
   );

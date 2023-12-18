@@ -66,7 +66,7 @@ const CustomerEdit = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Atualizar cliente</h1>
+            <h1 className="titulosh1">Atualizar cliente</h1>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField

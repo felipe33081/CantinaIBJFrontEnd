@@ -4,10 +4,16 @@
   position: relative;
   padding-top: 4rem;
   transition: all 300ms ease;
+  background: #1b263b;
+  width: 105%;
 }
 /* logo */
 .bars {
   display: none;
+}
+
+.buttonColor {
+  color: #ffffff !important;
 }
 
 .buttonLogout {
@@ -17,11 +23,10 @@
   border-radius: 0.7rem;
   font-size: 14px;
   text-decoration: none;
-  color: inherit;
 }
 .buttonLogout:hover {
   cursor: pointer;
-  background-color: var(--activeItem);
+  background-color: #3a86ff;
 }
 .buttonLogout:last-child {
   position: absolute;
@@ -31,7 +36,7 @@
 
 .logo {
   display: flex;
-  height: 5rem;
+  width: 100%;
   font-weight: bold;
   font-size: 22px;
   gap: 1rem;
@@ -44,8 +49,8 @@
 }
 
 .logo > img {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 145px;
+  height: 90px;
 }
 
 /* menu */
@@ -71,7 +76,7 @@
 
 .menuItem:hover {
   cursor: pointer;
-  background-color: var(--activeItem);
+  background-color: #3a86ff;
   margin-left: 0;
 }
 
@@ -82,7 +87,7 @@
 }
 
 .active {
-  background: var(--activeItem);
+  background: #3a86ff;
   margin-left: 0;
 }
 .active::before {
@@ -111,8 +116,8 @@
   .sidebar {
     position: fixed;
     z-index: 9;
-    background: #ade8f4;
-    width: 55%;
+    background: #1b263b;
+    width: 50%;
     padding-right: 1rem;
     height: 100%;
   }
@@ -139,7 +144,7 @@
     position: fixed;
     top: 2rem;
     left: 60%;
-    background: #00b4d8;
+    background: #1b263b;
     padding: 10px;
     border-radius: 10px;
     z-index: 50;

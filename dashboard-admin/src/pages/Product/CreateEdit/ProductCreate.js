@@ -39,7 +39,7 @@ const ProductCreate = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Cadastro de produto</h1>
+            <h1 className="titulosh1">Cadastro de produto</h1>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField

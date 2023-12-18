@@ -132,7 +132,7 @@ const UserEdit = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Atualizar usuário</h1>
+            <h1 className="titulosh1">Atualizar usuário</h1>
             <AppBar position="static">
               <Tabs
                 className="tab-panel"
@@ -219,8 +219,8 @@ const UserEdit = () => {
                 tableRef={tableRef}
                 title="Grupos"
                 columns={[
-                  { title: "Nome do Groupo", field: "groupName" },
-                  { title: "Precedência", field: "precedence" },
+                  { title: "Nome do Groupo", field: "groupName"},
+                  { title: "Precedência", field: "precedence" }
                 ]}
                 data={data}
               />
