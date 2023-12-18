@@ -410,7 +410,7 @@
  .amplify-button--primary {
    border-width: 1px;
    /* background: linear-gradient(to right, #2b9348, #fca311); */
-   background-color: #5465ff;
+   background-color: #1b263b;
    border-color: transparent;
    color: var(--amplify-components-button-primary-color);
    --amplify-internal-button-disabled-border-color: transparent;
@@ -426,13 +426,13 @@
    color: #e6e6e6;
  }
  .amplify-button--primary:focus {
-   background-color: #e76f51;
+   background-color: #1d2d44;
    border-color: transparent;
    color: var(--amplify-components-button-primary-focus-color);
    box-shadow: var(--amplify-components-button-primary-focus-box-shadow);
  }
  .amplify-button--primary:active {
-   background-color: #e76f51;
+   background-color: #000000;
    border-color: transparent;
    color: var(--amplify-components-button-primary-active-color);
  }

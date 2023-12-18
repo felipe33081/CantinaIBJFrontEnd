@@ -78,7 +78,7 @@ const ProductEdit = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Atualizar produtos</h1>
+            <h1 className="titulosh1">Atualizar produtos</h1>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField

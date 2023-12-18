@@ -38,7 +38,7 @@ export const cardsData = [
   {
     title: "Vendas",
     color: {
-      backGround: "linear-gradient(#6096ba 0%, #a3cef1 100%)",
+      backGround: "linear-gradient(#1d2d44 0%, #3a86ff 100%)",
       boxShadow: "#274c77 0px 10px 20px 0px",
     },
     barValue: 70,
@@ -54,7 +54,7 @@ export const cardsData = [
   {
     title: "Receitas",
     color: {
-      backGround: "linear-gradient(rgb(84, 101, 255) 0%, rgb(155, 177, 255) 100%)",
+      backGround: "linear-gradient(#1d2d44 0%, #3a86ff 100%)",
       boxShadow: "#274c77 0px 10px 20px 0px",
     },
     barValue: 80,

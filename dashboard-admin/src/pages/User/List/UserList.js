@@ -64,7 +64,7 @@ const UserList = (props) => {
             <div className="uk-width-auto@m uk-width-1-1">
               <Link
                 to="/usuario/novo"
-                style={{ backgroundColor: "#5465ff", textDecoration: "none" }}
+                style={{ backgroundColor: "#3a86ff", textDecoration: "none" }}
                 className="uk-button"
               >
                 <i

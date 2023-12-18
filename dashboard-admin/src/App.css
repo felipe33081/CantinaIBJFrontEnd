@@ -4,22 +4,21 @@
   --black: black;
   --gray: #788097;
   --purple: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
-  --blue: #023e8a;
-  --glass: rgba(255, 255, 255, 0.54);
+  --blue: #1b263b;
+  --glass: #e0e1dd;
   --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
   --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
   --activeItem: #48cae4;
 }
 
+.titulosh1 {
+  color: #000000;
+}
+
 .App {
   /* padding: 0.5rem 3.5rem; */
-  color: var(--black);
-  background: linear-gradient(
-    106.37deg,
-    #caf0f8 29.63%,
-    #90e0ef 51.55%,
-    #0077b6 90.85%
-  );
+  color: #ffffff;
+  background: #1b263b;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -30,13 +29,12 @@
 
 .AppGlass {
   display: grid;
-  height: 97%;
-  width: 97%;
+  height: 100%;
+  width: 100%;
   background: var(--glass);
-  border-radius: 2rem;
   gap: 2rem;
   grid-template-columns: 13rem auto;
-  overflow: hidden;
+  overflow: auto;
 }
 
 @media screen and (max-width: 1200px) {

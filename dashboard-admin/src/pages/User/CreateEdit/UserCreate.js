@@ -33,7 +33,7 @@ const UserCreate = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1>Cadastro de usuário</h1>
+            <h1 className="titulosh1">Cadastro de usuário</h1>
 
             <Grid container spacing={2}>
               <Grid item xs={12}>

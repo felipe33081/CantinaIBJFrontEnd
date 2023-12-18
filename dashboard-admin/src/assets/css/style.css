@@ -31,8 +31,24 @@
 }
 
 .tab-panel {
-  background-color: #5465ff !important;
-  color: white;
+  background-color: #3a86ff !important;
+  color: white !important;
+}
+
+.buttonSave-tabpanel {
+  background-color: #3a86ff !important;
+  color: white !important;
+}
+.buttonSave-tabpanel:hover {
+  background-color: #020e66 !important;
+}
+
+.buttonAdd-tabpanel {
+  background-color: #4cb444 !important;
+  color: white !important;
+}
+.buttonAdd-tabpanel:hover {
+  background-color: #007200 !important;
 }
 
 .loading-editing {
@@ -148,4 +164,8 @@
 }
 .uk-text-danger {
   color: #f0506e !important;
+}
+
+.buttonSelect {
+  height: '156px' !important;
 }
