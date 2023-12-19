@@ -8,7 +8,7 @@ export const getCustomerList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/CustomerPerson";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +32,7 @@ export const fetchCustomerList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/CustomerPerson";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -55,7 +55,7 @@ export const fetchCustomerList = async ( filters) => {
 export const getCustomerById = async ( id ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/CustomerPerson/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -78,7 +78,7 @@ export const getCustomerById = async ( id ) => {
 export const postCustomerCreate = async ( data ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/CustomerPerson";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -102,7 +102,7 @@ export const postCustomerCreate = async ( data ) => {
 export const putCustomerEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/CustomerPerson/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -126,7 +126,7 @@ export const putCustomerEdit = async ( id, data ) => {
 export const deleteCustomerById = async ( id ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/CustomerPerson/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

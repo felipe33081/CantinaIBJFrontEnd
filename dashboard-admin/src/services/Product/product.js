@@ -8,7 +8,7 @@ export const getProductList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/Product";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +32,7 @@ export const fetchProductList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/Product";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -55,7 +55,7 @@ export const fetchProductList = async ( filters) => {
 export const getProductById = async (id) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Product/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
     
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -77,7 +77,7 @@ export const getProductById = async (id) => {
 
 export const postProductCreate = async ( data ) => {
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/Product";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -101,7 +101,7 @@ export const postProductCreate = async ( data ) => {
 export const putProductEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Product/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -125,7 +125,7 @@ export const putProductEdit = async ( id, data ) => {
 export const deleteProductById = async ( id ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Product/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

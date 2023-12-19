@@ -8,7 +8,7 @@ export const getOrderList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/Order";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Order";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -31,7 +31,7 @@ export const getOrderList = async ( filters) => {
 export const postOrderCreate = async ( data ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + "/Order";
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Order";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -55,7 +55,7 @@ export const postOrderCreate = async ( data ) => {
 export const getOrderById = async ( id ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Order/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -78,7 +78,7 @@ export const getOrderById = async ( id ) => {
 export const putOrderEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Order/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -102,7 +102,7 @@ export const putOrderEdit = async ( id, data ) => {
 export const deleteOrderById = async ( id ) => {
     
     let token = await getToken();
-    let url = "http://localhost:8080/v1" + `/Order/${id}`;
+    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

@@ -38,17 +38,16 @@ function App() {
             <Route path="/" element={<MainDash />} />
             <Route path="/pedido" element={<OrderList />} />
             <Route path="/pedido/novo" element={<OrderCreate />} />
-            <Route path="/pedido/editar" element={<OrderEdit />} />
+            <Route exact path="/pedido/editar/:id" element={<OrderEdit />} />
+            
             <Route path="/cliente" element={<CustomerList />} />
             <Route path="/cliente/novo" element={<CustomerCreate />} />
-            <Route
-              exact
-              path="/cliente/editar/:id"
-              element={<CustomerEdit />}
-            />
+            <Route exact path="/cliente/editar/:id" element={<CustomerEdit />} />
+
             <Route path="/produto" element={<ProductList />} />
             <Route path="/produto/novo" element={<ProductCreate />} />
             <Route exact path="/produto/editar/:id" element={<ProductEdit />} />
+
             <Route path="/usuario" element={<UserList />} />
             <Route path="/usuario/novo" element={<UserCreate />} />
             <Route exact path="/usuario/editar/:id" element={<UserEdit />} />

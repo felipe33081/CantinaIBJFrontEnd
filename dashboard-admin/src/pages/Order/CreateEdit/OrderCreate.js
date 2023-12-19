@@ -32,7 +32,6 @@ const CustomAutocomplete = styled(Autocomplete)({
 
 const OrderCreate = () => {
   const navigate = useNavigate();
-  const tableRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerPersonId, setCustomerPerson] = useState();
@@ -72,16 +71,6 @@ const OrderCreate = () => {
 
     fetchCustomerPersons();
   }, []);
-
-  const handleQuantityChange = (rowData, event) => {
-    const newData = [...data];
-    const index = rowData.tableData.id;
-    newData[index] = {
-      ...rowData,
-      quantity: event.target.value,
-    };
-    setData(newData);
-  };
 
   const handleProductsChange = async (event, newValue) => {
     if (newValue !== null) {
