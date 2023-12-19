@@ -71,14 +71,29 @@
     }
 }
 
-/* .toast__container.toast__container--error {
+
+/* Estilos para os ícones do Toastr usando Font Awesome */
+.toast__container--success::before {
+    content: '\f058'; /* Código do ícone de sucesso do Font Awesome */
+    font-family: 'Font Awesome 5 Free'; /* Família de fontes do Font Awesome */
+    color: green; /* Cor para ícone de sucesso */
+}
+
+.toast__container--info::before {
+    content: '\f05a'; /* Código do ícone de informação do Font Awesome */
+    font-family: 'Font Awesome 5 Free'; /* Família de fontes do Font Awesome */
+    color: blue; /* Cor para ícone de informação */
+}
+
+
+.toast__container.toast__container--error {
     background-color: #fef4f6;
     opacity: 1;
-} */
+}
 
-/* .toast__container.toast__container--error::before
+.toast__container.toast__container--error::before
 {
-    content: "\f06a";  /* this is your text. You can also use UTF-8 character codes as I do here *
+    content: "\f06a";  //this is your text. You can also use UTF-8 character codes as I do here *
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     left: 18px;
@@ -90,8 +105,8 @@
     font-variant: normal;
     text-rendering: auto;
     line-height: 1;
-} */
+}
 
-/* .toast__container.toast__container--error .toast-message {
+.toast__container.toast__container--error .toast-message {
     color: #f0506e;
-} */
+}

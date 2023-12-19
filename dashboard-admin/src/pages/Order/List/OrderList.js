@@ -135,7 +135,7 @@ const OrderList = (props) => {
             tooltip: "Editar",
             position: "row",
             onClick: (_, rowData) =>
-              navigate(`/pedido/editar?id=${rowData.id}`),
+              navigate(`/pedido/editar/${rowData.id}`),
           },
         ]}
         editable={{

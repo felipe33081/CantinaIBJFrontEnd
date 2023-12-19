@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ContentContainer from "../../../containers/ContentContainer";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { putOrderEdit } from "../../../services/Order/order";
+import { putOrderEdit, getOrderById } from "../../../services/Order/order";
 import { Box, TextField, Button, Grid } from "@material-ui/core";
-import { useNavigate } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -16,7 +16,7 @@ import MaterialTable from "material-table";
 import { fetchCustomerList } from "../../../services/Customer/customers";
 import { Autocomplete } from "@mui/material";
 import { fetchProductList } from "../../../services/Product/product";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -25,25 +25,43 @@ TabPanel.propTypes = {
 };
 
 const CustomAutocomplete = styled(Autocomplete)({
-  '& .MuiOutlinedInput-root': {
-    padding: '11px', // Ajuste o padding conforme necessário para alterar a altura
+  "& .MuiOutlinedInput-root": {
+    padding: "11px", // Ajuste o padding conforme necessário para alterar a altura
   },
 });
 
 const OrderEdit = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const tableRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [customerName, setCustomerName] = useState("");
-  const [customerPersonId, setCustomerPerson] = useState();
+  const [customerPersonId, setCustomerPerson] = useState("");
+  const [customerPersonDisplay, setCustomerPersonDisplay] = useState("");
   const [value, setValue] = useState(0);
   const [data, setData] = useState([]);
-  const [showCustomerName, setShowCustomerName] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
-  const [productId, setProduct] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedProductQuantity, setSelectedProductQuantity] = useState("");
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response = await getOrderById(id);
+        const productData = response.data;
+        setCustomerPerson(productData.customerPersonId);
+        setCustomerPersonDisplay(productData.customerPersonDisplay);
+        setCustomerName(productData.customerName);
+        setData(productData.products);
+        setLoading(true);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    fetchOrder();
+  }, [id]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -73,16 +91,6 @@ const OrderEdit = () => {
     fetchCustomerPersons();
   }, []);
 
-  const handleQuantityChange = (rowData, event) => {
-    const newData = [...data];
-    const index = rowData.tableData.id;
-    newData[index] = {
-      ...rowData,
-      quantity: event.target.value,
-    };
-    setData(newData);
-  };
-
   const handleProductsChange = async (event, newValue) => {
     if (newValue !== null) {
       try {
@@ -107,7 +115,7 @@ const OrderEdit = () => {
         ...data,
         {
           productId: selectedProduct.id,
-          nameProduct: `${selectedProduct.name} - ${selectedProduct.description}`,
+          name: `${selectedProduct.name} - ${selectedProduct.description}`,
           quantity: selectedProductQuantity,
         },
       ]);
@@ -126,14 +134,14 @@ const OrderEdit = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const order = {
-      customerName,
-      customerPersonId: customerPersonId ? customerPersonId.id : null,
+      customerName: customerName,
+      customerPersonId: customerPersonId,
       products: data.map((item) => ({
         productId: item.productId,
         quantity: parseInt(item.quantity),
       })),
     };
-    await putOrderEdit(order).then(() => {
+    await putOrderEdit(id, order).then(() => {
       navigate("/pedido");
     });
   };
@@ -151,10 +159,6 @@ const OrderEdit = () => {
         console.error("Erro ao obter a lista de clientes:", error);
       }
     }
-  };
-
-  const handleCheckboxChange = (event) => {
-    setShowCustomerName(event.target.checked);
   };
 
   if (!loading) {
@@ -183,23 +187,7 @@ const OrderEdit = () => {
             {/* Tab menu de Cliente */}
             <TabPanel value={value} index={0}>
               <Grid container spacing={2}>
-                <Grid>
-                  <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-                    <p className="titulosh1">
-                      O Cliente tem Cadastro? (Marque para selecionar o cliente
-                      cadastrado)
-                    </p>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={0}>
-                  <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-                    <Checkbox
-                      checked={showCustomerName}
-                      onChange={handleCheckboxChange}
-                    />
-                  </FormControl>
-                </Grid>
-                {!showCustomerName && (
+                {customerName && (
                   <Grid item xs={12}>
                     <TextField
                       id="customerName"
@@ -208,20 +196,21 @@ const OrderEdit = () => {
                       label="Nome do cliente"
                       value={customerName}
                       variant="outlined"
+                      disabled={true}
                       onChange={(e) => setCustomerName(e.target.value)}
                       sx={{ mb: 3 }}
                     />
                   </Grid>
                 )}
-                {showCustomerName && (
+                {customerPersonId && (
                   <Grid item xs={12} sm={12}>
                     <CustomAutocomplete
                       id="customerPerson"
                       options={customers}
-                      getOptionLabel={(customer) => customer.name}
-                      value={customerPersonId}
+                      value={customerPersonDisplay}
+                      disabled={true}
                       onChange={(event, newValue) =>
-                        setCustomerPerson(newValue)
+                        setCustomerPersonDisplay(newValue)
                       }
                       renderInput={(params) => (
                         <TextField
@@ -275,7 +264,6 @@ const OrderEdit = () => {
                     onChange={(event) =>
                       setSelectedProductQuantity(event.target.value)
                     }
-                    
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -293,10 +281,18 @@ const OrderEdit = () => {
                   <MaterialTable
                     style={{ zIndex: 1 }}
                     columns={[
-                      { title: "Nome do Produto", field: "nameProduct" },
+                      {
+                        title: "Nome do Produto",
+                        field: "productName", // Nome temporário para a nova coluna concatenada
+                      },
                       { title: "Quantidade", field: "quantity" },
                     ]}
-                    data={data}
+                    data={data.map((item) => ({
+                      ...item,
+                      productName: item.description
+                        ? `${item.name} - ${item.description}`
+                        : item.name, // Verifica se há descrição antes de concatenar
+                    }))}
                     title="Produtos"
                     variant="outlined"
                     options={{
