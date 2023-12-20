@@ -10,6 +10,7 @@ import Tab from "@material-ui/core/Tab";
 import { FormControl, Checkbox } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TabPanel from "../../../components/TabPanel/TabPanel";
 import { a11yProps } from "../../../components/TabPanel/TabPanel";
 import MaterialTable from "material-table";
@@ -122,9 +123,8 @@ const OrderCreate = () => {
         quantity: parseInt(item.quantity),
       })),
     };
-    await postOrderCreate(order).then(() => {
-      navigate("/pedido");
-    });
+    const response = await postOrderCreate(order);
+    navigate(`/pedido/editar/${response}`);
   };
 
   const handleChange = (event, newValue) => {
@@ -272,7 +272,7 @@ const OrderCreate = () => {
                     variant="contained"
                     className="buttonAdd-tabpanel"
                     onClick={handleAddRow}
-                    startIcon={<SaveOutlinedIcon />}
+                    startIcon={<AddCircleOutlineIcon />}
                   >
                     Adicionar Produto
                   </Button>

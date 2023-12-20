@@ -142,14 +142,14 @@
   .bars {
     display: flex;
     position: fixed;
-    top: 2rem;
-    left: 60%;
-    background: #1b263b;
+    top: 1rem;
+    left: 2rem;
+    background: #3a86ff;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     z-index: 50;
   }
   .close {
-    left: -60%;
+    left: -2rem;
   }
 }

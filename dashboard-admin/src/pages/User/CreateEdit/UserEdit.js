@@ -13,17 +13,20 @@ import {
   TextField,
   Button,
   Grid,
-  Modal
+  Modal,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import CloseIcon from "@mui/icons-material/Close";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 import TabPanel from "../../../components/TabPanel/TabPanel";
@@ -219,8 +222,8 @@ const UserEdit = () => {
                 tableRef={tableRef}
                 title="Grupos"
                 columns={[
-                  { title: "Nome do Groupo", field: "groupName"},
-                  { title: "Precedência", field: "precedence" }
+                  { title: "Nome do Groupo", field: "groupName" },
+                  { title: "Precedência", field: "precedence" },
                 ]}
                 data={data}
               />
@@ -334,7 +337,7 @@ const UserEdit = () => {
                 variant="contained"
                 onClick={() => setOpenModal(true)}
               >
-                <AddIcon />
+                <AddCircleOutlineIcon />
                 Adicionar
               </Button>
 
@@ -344,7 +347,7 @@ const UserEdit = () => {
                 variant="contained"
                 onClick={() => setOpenRemoveModal(true)}
               >
-                <RemoveIcon />
+                <RemoveCircleOutlineIcon />
                 Remover
               </Button>
             </TabPanel>

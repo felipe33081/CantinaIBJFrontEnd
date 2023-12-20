@@ -28,9 +28,8 @@ const ProductCreate = () => {
       price,
       quantity,
     };
-    await postProductCreate(product).then(() => {
-      navigate("/produto");
-    });
+    const response = await postProductCreate(product);
+    navigate(`/produto/editar/${response}`);
   };
 
   return (

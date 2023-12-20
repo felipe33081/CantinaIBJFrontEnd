@@ -27,7 +27,7 @@
   transition-property: color, background-color, border-color;
 }
 .uk-button:hover {
-  background-color: #020e66 !important;
+  background-color: #1b263b !important;
 }
 
 .tab-panel {
@@ -40,7 +40,16 @@
   color: white !important;
 }
 .buttonSave-tabpanel:hover {
-  background-color: #020e66 !important;
+  background-color: #1b263b !important;
+}
+
+.buttonFinishOrder-tabpanel {
+  background-color: #0f3a8b !important;
+  color: white !important;
+  left: 1rem;
+}
+.buttonFinishOrder-tabpanel:hover {
+  background-color: #1b263b !important;
 }
 
 .buttonAdd-tabpanel {
@@ -49,6 +58,10 @@
 }
 .buttonAdd-tabpanel:hover {
   background-color: #007200 !important;
+}
+
+.fieldsFinishOrder {
+  margin-bottom: 1.5rem;
 }
 
 .loading-editing {

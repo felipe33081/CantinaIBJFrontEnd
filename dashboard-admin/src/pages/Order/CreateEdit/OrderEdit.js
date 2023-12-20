@@ -2,14 +2,30 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ContentContainer from "../../../containers/ContentContainer";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { putOrderEdit, getOrderById } from "../../../services/Order/order";
-import { Box, TextField, Button, Grid } from "@material-ui/core";
+import {
+  putOrderEdit,
+  postOrderFinish,
+  getOrderById,
+} from "../../../services/Order/order";
+import {
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Modal,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { FormControl, Checkbox } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CloseIcon from "@mui/icons-material/Close";
 import TabPanel from "../../../components/TabPanel/TabPanel";
 import { a11yProps } from "../../../components/TabPanel/TabPanel";
 import MaterialTable from "material-table";
@@ -17,6 +33,7 @@ import { fetchCustomerList } from "../../../services/Customer/customers";
 import { Autocomplete } from "@mui/material";
 import { fetchProductList } from "../../../services/Product/product";
 import { styled } from "@mui/system";
+import FormattedInputs from "../../Product/CreateEdit/FormattedInputs";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -43,6 +60,9 @@ const OrderEdit = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedProductQuantity, setSelectedProductQuantity] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = useState(false);
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -171,7 +191,7 @@ const OrderEdit = () => {
         {<ActionBar hideSubmit={true} />}
         <Box>
           <form onSubmit={handleSubmit}>
-            <h1 className="titulosh1">Cadastro de pedido</h1>
+            <h1 className="titulosh1">Atualizar pedido</h1>
             <AppBar position="static">
               <Tabs
                 className="tab-panel"
@@ -187,8 +207,20 @@ const OrderEdit = () => {
             {/* Tab menu de Cliente */}
             <TabPanel value={value} index={0}>
               <Grid container spacing={2}>
+                <Grid item xs={2}>
+                  <TextField
+                    id="id"
+                    name="id"
+                    fullWidth
+                    label="Id do Pedido"
+                    value={id}
+                    variant="outlined"
+                    disabled={true}
+                    sx={{ mb: 3 }}
+                  />
+                </Grid>
                 {customerName && (
-                  <Grid item xs={12}>
+                  <Grid item xs={10}>
                     <TextField
                       id="customerName"
                       name="customerName"
@@ -203,7 +235,7 @@ const OrderEdit = () => {
                   </Grid>
                 )}
                 {customerPersonId && (
-                  <Grid item xs={12} sm={12}>
+                  <Grid item xs={10} sm={10}>
                     <CustomAutocomplete
                       id="customerPerson"
                       options={customers}
@@ -271,7 +303,7 @@ const OrderEdit = () => {
                     variant="contained"
                     className="buttonAdd-tabpanel"
                     onClick={handleAddRow}
-                    startIcon={<SaveOutlinedIcon />}
+                    startIcon={<AddCircleOutlineIcon />}
                   >
                     Adicionar Produto
                   </Button>
@@ -324,6 +356,76 @@ const OrderEdit = () => {
               startIcon={<SaveOutlinedIcon />}
             >
               Salvar Pedido
+            </Button>
+
+            {/* Modal de finalizar pedido, enviando requisição para o endpoint /finish */}
+            <Modal open={openModal} onClose={() => setOpenModal(false)}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  bgcolor: "background.paper",
+                  boxShadow: 24,
+                  p: 4,
+                  maxWidth: 400,
+                }}
+              >
+                <FormControl fullWidth variant="outlined" sx={{ mb: 3 }}>
+                  <InputLabel id="PaymentOfType">Tipo de Pagamento</InputLabel>
+                  <Select
+                    labelId="PaymentOfType"
+                    id="PaymentOfType"
+                    className="fieldsFinishOrder"
+                    //value={PaymentOfType}
+                    //onChange={(e) => setPaymentOfType(e.target.value)}
+                    label="Tipo de Pagamento"
+                    required={true}
+                  >
+                    <MenuItem value={"Money"}>Dinheiro</MenuItem>
+                    <MenuItem value={"Debitor"}>Fiado</MenuItem>
+                    <MenuItem value={"ExtraMoney"}>Crédito na conta</MenuItem>
+                    <MenuItem value={"PIX"}>PIX</MenuItem>
+                    <MenuItem value={"DebitCard"}>Cartão de Débito</MenuItem>
+                    <MenuItem value={"CreditCard"}>Cartão de Crédito</MenuItem>
+                  </Select>
+
+                  <Grid>
+                    <FormattedInputs
+                      className="fieldsFinishOrder"
+                      onChange={(e) => setPrice(e.target.value)}
+                      price={price}
+                    />
+                  </Grid>
+                </FormControl>
+                <Button
+                  className="add-button"
+                  //onClick={handleFinishOrder}
+                  variant="contained"
+                >
+                  <CheckCircleOutlineIcon />
+                  Finalizar
+                </Button>
+                <Button
+                  className="close-button"
+                  onClick={() => setOpenModal(false)}
+                  variant="contained"
+                >
+                  <CloseIcon />
+                  Fechar
+                </Button>
+              </Box>
+            </Modal>
+
+            {/* Botão de finalizar pedido em andamento */}
+            <Button
+              className="buttonFinishOrder-tabpanel"
+              variant="contained"
+              onClick={() => setOpenModal(true)}
+              startIcon={<CheckCircleOutlineIcon />}
+            >
+              Finalizar Pedido
             </Button>
           </form>
         </Box>

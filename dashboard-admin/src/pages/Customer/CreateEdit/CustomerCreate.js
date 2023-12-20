@@ -10,19 +10,16 @@ import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 const CustomerCreate = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const customer = {
       name,
-      email,
       phone,
     };
-    await postCustomerCreate(customer).then(() => {
-      navigate("/cliente");
-    });
+    const response = await postCustomerCreate(customer);
+    navigate(`/cliente/editar/${response}`);
   };
 
   return (
@@ -45,18 +42,7 @@ const CustomerCreate = () => {
                   sx={{ mb: 3 }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id="email"
-                  label="Email"
-                  fullWidth
-                  variant="outlined"
-                  placeholder="email@host.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                  sx={{ mb: 3 }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <PhoneMaskInput
                   id="phone"
                   label="Telefone"

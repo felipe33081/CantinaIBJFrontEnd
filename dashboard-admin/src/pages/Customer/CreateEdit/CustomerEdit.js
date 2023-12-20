@@ -81,7 +81,7 @@ const CustomerEdit = () => {
                   sx={{ mb: 3 }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/*<Grid item xs={12} sm={6}>
                 <TextField
                   id="email"
                   label="Email"
@@ -92,7 +92,7 @@ const CustomerEdit = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   sx={{ mb: 3 }}
                 />
-              </Grid>
+              </Grid>*/}
               <Grid item xs={12} sm={6}>
                 <PhoneMaskInput
                   id="phone"
@@ -105,7 +105,7 @@ const CustomerEdit = () => {
                   sx={{ mb: 3 }}
                 />
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   id="balance"
                   label="Saldo"

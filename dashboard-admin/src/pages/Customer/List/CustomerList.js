@@ -87,7 +87,6 @@ const CustomerList = (props) => {
         title="Clientes"
         columns={[
           { title: "Nome", field: "name" },
-          { title: "Email", field: "email" },
           { title: "Telefone", field: "phone", filtering: false },
           {
             title: "Saldo",
@@ -116,6 +115,27 @@ const CustomerList = (props) => {
               />
             ),
           },
+          /*{
+            title: "Atualizado em",
+            field: "updatedAt",
+            render: ({ updatedAt }) =>
+              updatedAt && new Date(updatedAt).toLocaleDateString("pt-BR"),
+            filterComponent: (props) => (
+              <DatePicker
+                {...props}
+                format="dd/MM/yyyy"
+                InputLabelProps={{ shrink: true }}
+                placeholder="dd/mm/aaaa"
+                variant="inline"
+                value={props?.columnDef?.tableData?.filterValue || null}
+                disableFuture={true}
+                onChange={(e) =>
+                  props.onFilterChanged(props?.columnDef?.tableData?.id, e)
+                }
+                helperText={false}
+              />
+            ),
+          },*/
           { title: "Criado por", field: "createdBy" }
         ].filter((x) => x !== undefined)}
         actions={[
