@@ -46,7 +46,31 @@ export const postOrderCreate = async ( data ) => {
 		if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível cadastrar um pedido");
+			Toast.showErrorMessage("Não foi possível cadastrar o pedido");
+		}
+		throw err;
+	}
+}
+
+export const postOrderFinish = async ( id, data ) => {
+    
+    let token = await getToken();
+    let url = 'https://web-cantina-ibj.azurewebsites.net/v1' + `/Order/${id}/finish`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.post(url, data, config);
+        Toast.showSuccessMessage("Pedido finalizado com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível finalizar o pedido");
 		}
 		throw err;
 	}
@@ -69,7 +93,7 @@ export const getOrderById = async ( id ) => {
 		if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível obter os dados do cliente");
+			Toast.showErrorMessage("Não foi possível obter os dados do pedido");
 		}
 		throw err;
 	}
