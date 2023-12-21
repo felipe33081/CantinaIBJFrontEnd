@@ -274,7 +274,7 @@ const OrderEdit = () => {
                     Valor Total: R$ {totalValue}
                   </p>
                 )}
-                {paymentValue !== null && (
+                {paymentValue !== null && paymentValue !== 0 && (
                   <p className="infos-order-fields">
                     Valor do Pagamento: R$ {paymentValue}
                   </p>
