@@ -61,14 +61,26 @@ const OrderEdit = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedProductQuantity, setSelectedProductQuantity] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [openRemoveModal, setOpenRemoveModal] = useState(false);
-  const [price, setPrice] = useState("");
+  const [paymentOfType, setPaymentOfType] = useState();
+  const [paymentValue, setPaymentValue] = useState(0);
+  const [status, setStatus] = useState();
+  const [statusDisplay, setStatusDisplay] = useState("");
+  const [totalValue, setTotalValue] = useState();
+  const [changeValue, setChangeValue] = useState();
+  const [paymentOfTypeDisplay, setPaymentOfTypeDisplay] = useState("");
+  const [showPaymentValue, setShowPaymentValue] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const response = await getOrderById(id);
         const productData = response.data;
+        setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
+        setPaymentValue(productData.paymentValue);
+        setChangeValue(productData.changeValue);
+        setTotalValue(productData.totalValue);
+        setStatus(productData.status);
+        setStatusDisplay(productData.statusDisplay);
         setCustomerPerson(productData.customerPersonId);
         setCustomerPersonDisplay(productData.customerPersonDisplay);
         setCustomerName(productData.customerName);
@@ -82,6 +94,12 @@ const OrderEdit = () => {
 
     fetchOrder();
   }, [id]);
+
+  useEffect(() => {
+    setShowPaymentValue(
+      paymentOfType === 0 || paymentOfType === 4 || paymentOfType === 5
+    );
+  }, [paymentOfType]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -151,6 +169,34 @@ const OrderEdit = () => {
     setData(newData);
   };
 
+  const handleFinishOrder = async (event) => {
+    event.preventDefault();
+    const data = {
+      paymentOfType,
+      paymentValue: paymentValue ?? 0,
+    };
+    try {
+      await postOrderFinish(id, data);
+      // Atualizar os dados da página após a submissão ser bem-sucedida
+      const response = await getOrderById(id);
+      const productData = response.data;
+      setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
+      setPaymentValue(productData.paymentValue);
+      setChangeValue(productData.changeValue);
+      setTotalValue(productData.totalValue);
+      setStatus(productData.status);
+      setStatusDisplay(productData.statusDisplay);
+      setCustomerPerson(productData.customerPersonId);
+      setCustomerPersonDisplay(productData.customerPersonDisplay);
+      setCustomerName(productData.customerName);
+      setData(productData.products);
+      setOpenModal(false);
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const order = {
@@ -161,9 +207,26 @@ const OrderEdit = () => {
         quantity: parseInt(item.quantity),
       })),
     };
-    await putOrderEdit(id, order).then(() => {
-      navigate("/pedido");
-    });
+
+    try {
+      await putOrderEdit(id, order);
+      // Atualizar os dados da página após a submissão ser bem-sucedida
+      const response = await getOrderById(id);
+      const productData = response.data;
+      setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
+      setPaymentValue(productData.paymentValue);
+      setChangeValue(productData.changeValue);
+      setTotalValue(productData.totalValue);
+      setStatus(productData.status);
+      setStatusDisplay(productData.statusDisplay);
+      setCustomerPerson(productData.customerPersonId);
+      setCustomerPersonDisplay(productData.customerPersonDisplay);
+      setCustomerName(productData.customerName);
+      setData(productData.products);
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event, newValue) => {
@@ -202,6 +265,32 @@ const OrderEdit = () => {
                 <Tab label="Cliente" {...a11yProps(0)} />
                 <Tab label="Produtos" {...a11yProps(1)} />
               </Tabs>
+              <Grid className="infos-order" item xs={12}>
+                {statusDisplay !== null && (
+                  <p className="infos-order-fields">Pedido {statusDisplay}</p>
+                )}
+                {totalValue !== null && (
+                  <p className="infos-order-fields">
+                    Valor Total: R$ {totalValue}
+                  </p>
+                )}
+                {paymentValue !== null && (
+                  <p className="infos-order-fields">
+                    Valor do Pagamento: R$ {paymentValue}
+                  </p>
+                )}
+                {changeValue !== null && (
+                  <p className="infos-order-fields">
+                    Valor do Troco: R${changeValue}
+                  </p>
+                )}
+                {paymentOfTypeDisplay !== null &&
+                  paymentOfTypeDisplay !== "N/a" && (
+                    <p className="infos-order-fields">
+                      Tipo de Pagamento: {paymentOfTypeDisplay}
+                    </p>
+                  )}
+              </Grid>
             </AppBar>
 
             {/* Tab menu de Cliente */}
@@ -264,50 +353,58 @@ const OrderEdit = () => {
             {/* Tab menu de Produtos */}
             <TabPanel value={value} index={1}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <CustomAutocomplete
-                    id="productId"
-                    options={products}
-                    getOptionLabel={(product) =>
-                      `${product.name} - ${product.description}`
-                    }
-                    value={selectedProduct} // Estado para armazenar o produto selecionado
-                    onChange={(event, newValue) => setSelectedProduct(newValue)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Selecione o produto"
-                        fullWidth
-                        variant="outlined"
-                        onChange={(e) =>
-                          handleProductsChange(e, e.target.value)
-                        }
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    type="number"
-                    label="Quantidade"
-                    variant="outlined"
-                    fullWidth
-                    value={selectedProductQuantity} // Estado para armazenar a quantidade
-                    onChange={(event) =>
-                      setSelectedProductQuantity(event.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    className="buttonAdd-tabpanel"
-                    onClick={handleAddRow}
-                    startIcon={<AddCircleOutlineIcon />}
-                  >
-                    Adicionar Produto
-                  </Button>
-                </Grid>
+                {status == 1 && (
+                  <Grid item xs={6}>
+                    <CustomAutocomplete
+                      id="productId"
+                      options={products}
+                      getOptionLabel={(product) =>
+                        `${product.name} - ${product.description}`
+                      }
+                      value={selectedProduct} // Estado para armazenar o produto selecionado
+                      onChange={(event, newValue) =>
+                        setSelectedProduct(newValue)
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Selecione o produto"
+                          fullWidth
+                          variant="outlined"
+                          onChange={(e) =>
+                            handleProductsChange(e, e.target.value)
+                          }
+                        />
+                      )}
+                    />
+                  </Grid>
+                )}
+                {status == 1 && (
+                  <Grid item xs={6}>
+                    <TextField
+                      type="number"
+                      label="Quantidade"
+                      variant="outlined"
+                      fullWidth
+                      value={selectedProductQuantity} // Estado para armazenar a quantidade
+                      onChange={(event) =>
+                        setSelectedProductQuantity(event.target.value)
+                      }
+                    />
+                  </Grid>
+                )}
+                {status == 1 && (
+                  <Grid item xs={12}>
+                    <Button
+                      variant="contained"
+                      className="buttonAdd-tabpanel"
+                      onClick={handleAddRow}
+                      startIcon={<AddCircleOutlineIcon />}
+                    >
+                      Adicionar Produto
+                    </Button>
+                  </Grid>
+                )}
                 <Grid item xs={12}>
                   {/* Tabela para exibir os produtos adicionados */}
                   <MaterialTable
@@ -349,14 +446,16 @@ const OrderEdit = () => {
                 </Grid>
               </Grid>
             </TabPanel>
-            <Button
-              variant="contained"
-              className="buttonSave-tabpanel"
-              type="submit"
-              startIcon={<SaveOutlinedIcon />}
-            >
-              Salvar Pedido
-            </Button>
+            {status == 1 && (
+              <Button
+                variant="contained"
+                className="buttonSave-tabpanel"
+                type="submit"
+                startIcon={<SaveOutlinedIcon />}
+              >
+                Salvar Pedido
+              </Button>
+            )}
 
             {/* Modal de finalizar pedido, enviando requisição para o endpoint /finish */}
             <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -378,30 +477,33 @@ const OrderEdit = () => {
                     labelId="PaymentOfType"
                     id="PaymentOfType"
                     className="fieldsFinishOrder"
-                    //value={PaymentOfType}
-                    //onChange={(e) => setPaymentOfType(e.target.value)}
+                    value={paymentOfType}
+                    onChange={(e) => setPaymentOfType(e.target.value)}
                     label="Tipo de Pagamento"
                     required={true}
                   >
-                    <MenuItem value={"Money"}>Dinheiro</MenuItem>
-                    <MenuItem value={"Debitor"}>Fiado</MenuItem>
-                    <MenuItem value={"ExtraMoney"}>Crédito na conta</MenuItem>
-                    <MenuItem value={"PIX"}>PIX</MenuItem>
-                    <MenuItem value={"DebitCard"}>Cartão de Débito</MenuItem>
-                    <MenuItem value={"CreditCard"}>Cartão de Crédito</MenuItem>
+                    <MenuItem value={0}>Dinheiro</MenuItem>
+                    <MenuItem value={4}>Fiado</MenuItem>
+                    <MenuItem value={5}>Crédito na conta</MenuItem>
+                    <MenuItem value={1}>PIX</MenuItem>
+                    <MenuItem value={2}>Cartão de Débito</MenuItem>
+                    <MenuItem value={3}>Cartão de Crédito</MenuItem>
                   </Select>
 
                   <Grid>
-                    <FormattedInputs
-                      className="fieldsFinishOrder"
-                      onChange={(e) => setPrice(e.target.value)}
-                      price={price}
-                    />
+                    {showPaymentValue && (
+                      <FormattedInputs
+                        className="fieldsFinishOrder"
+                        onChange={(e) => setPaymentValue(e.target.value)}
+                        price={paymentValue}
+                        required={false}
+                      />
+                    )}
                   </Grid>
                 </FormControl>
                 <Button
                   className="add-button"
-                  //onClick={handleFinishOrder}
+                  onClick={handleFinishOrder}
                   variant="contained"
                 >
                   <CheckCircleOutlineIcon />
@@ -419,14 +521,16 @@ const OrderEdit = () => {
             </Modal>
 
             {/* Botão de finalizar pedido em andamento */}
-            <Button
-              className="buttonFinishOrder-tabpanel"
-              variant="contained"
-              onClick={() => setOpenModal(true)}
-              startIcon={<CheckCircleOutlineIcon />}
-            >
-              Finalizar Pedido
-            </Button>
+            {status == 1 && (
+              <Button
+                className="buttonFinishOrder-tabpanel"
+                variant="contained"
+                onClick={() => setOpenModal(true)}
+                startIcon={<CheckCircleOutlineIcon />}
+              >
+                Finalizar Pedido
+              </Button>
+            )}
           </form>
         </Box>
       </ContentContainer>

@@ -33,7 +33,6 @@ import { ProcessIcon } from "./icons/ProcessIcon";
 import { ProcuradoriaGeralIcon } from "./icons/ProcuradoriaGeralIcon";
 import { SintegraIcon } from "./icons/SintegraIcon";
 import { AddressIcon } from "./icons/AddressIcon";
-import { KYCIcon } from "./icons/KYCIcon";
 import { JudicialActionsIcon } from "./icons/JudicialActionsIcon";
 import { RelatedPersonIcon } from "./icons/RelatedPersonIcon";
 import { TelephoneIcon } from "./icons/TelephoneIcon";
@@ -92,7 +91,6 @@ export {
 	ProcuradoriaGeralIcon,
 	SintegraIcon,
 	AddressIcon,
-	KYCIcon,
 	JudicialActionsIcon,
 	RelatedPersonIcon,
 	TelephoneIcon,

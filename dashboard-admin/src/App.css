@@ -12,7 +12,19 @@
 }
 
 .titulosh1 {
-  color: #000000;
+  color: #3a86ff;
+  font-size: 2rem;
+  font-family: 'Rubik Maps';
+  font-weight: 400;
+  text-shadow: -1px -1px 0 #1b263b,  
+                1px -1px 0 #1b263b,
+               -1px 1px 0 #1b263b,
+                1px 1px 0 #1b263b;
+}
+
+.client-register {  
+  color: #000;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .App {

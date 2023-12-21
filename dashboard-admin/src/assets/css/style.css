@@ -31,8 +31,10 @@
 }
 
 .tab-panel {
-  background-color: #3a86ff !important;
+  background-color: #1b263b !important;
   color: white !important;
+  border-top-right-radius: 5px !important;
+  border-top-left-radius: 5px !important;
 }
 
 .buttonSave-tabpanel {
@@ -63,6 +65,20 @@
 .fieldsFinishOrder {
   margin-bottom: 1.5rem;
 }
+
+.infos-order {
+  background-color: #f0f0f0;
+  padding-left: 16px;
+  border-radius: 2px;
+  
+}
+
+.infos-order-fields {
+  font-size: small;
+  margin: 10px 0;
+  color: #000;
+}
+
 
 .loading-editing {
   position: fixed;

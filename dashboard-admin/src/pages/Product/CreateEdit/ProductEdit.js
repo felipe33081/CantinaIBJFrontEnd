@@ -97,6 +97,7 @@ const ProductEdit = () => {
                 <FormattedInputs
                   onChange={(e) => setPrice(e.target.value)}
                   price={price}
+                  required={true}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
