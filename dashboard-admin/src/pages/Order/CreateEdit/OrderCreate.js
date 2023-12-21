@@ -144,6 +144,8 @@ const OrderCreate = () => {
 
   const handleCheckboxChange = (event) => {
     setShowCustomerName(event.target.checked);
+    setCustomerName("");
+    setCustomerPerson(null);
   };
 
   if (!loading) {
@@ -174,7 +176,7 @@ const OrderCreate = () => {
               <Grid container spacing={2}>
                 <Grid>
                   <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-                    <p className="titulosh1">
+                    <p className="client-register">
                       O Cliente tem Cadastro? (Marque para selecionar o cliente
                       cadastrado)
                     </p>

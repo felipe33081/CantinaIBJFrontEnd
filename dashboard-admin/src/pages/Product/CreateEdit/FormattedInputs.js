@@ -37,7 +37,7 @@ NumericFormatCustom.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default function FormattedInputs({ onChange, price }) {
+export default function FormattedInputs({ onChange, price, required }) {
   const handleChange = (event) => {
     onChange(event);
   };
@@ -48,7 +48,7 @@ export default function FormattedInputs({ onChange, price }) {
         id="price"
         fullWidth
         label="Preço"
-        required={true}
+        required={required}
         variant="outlined"
         value={price}
         onChange={handleChange}
