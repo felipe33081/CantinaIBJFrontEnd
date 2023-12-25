@@ -53,7 +53,10 @@ const ProductCreate = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <FormattedInputs onChange={(e) => setPrice(e.target.value)} />
+                <FormattedInputs 
+                  required={true}
+                  label="Preço"
+                  onChange={(e) => setPrice(e.target.value)} />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField

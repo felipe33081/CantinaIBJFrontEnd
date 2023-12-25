@@ -34,6 +34,7 @@ import { Autocomplete } from "@mui/material";
 import { fetchProductList } from "../../../services/Product/product";
 import { styled } from "@mui/system";
 import FormattedInputs from "../../Product/CreateEdit/FormattedInputs";
+import { ArrowBackOutlined } from "@material-ui/icons";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -233,6 +234,10 @@ const OrderEdit = () => {
     setValue(newValue);
   };
 
+  const handleBack = async () => {
+    navigate("/pedido");
+  };
+
   const handleCustomerPersonChange = async (event, newValue) => {
     if (newValue !== null) {
       try {
@@ -255,6 +260,14 @@ const OrderEdit = () => {
         <Box>
           <form onSubmit={handleSubmit}>
             <h1 className="titulosh1">Atualizar pedido</h1>
+            <Button
+              className="back-to-grid"
+              variant="contained"
+              onClick={handleBack}
+            >
+              <ArrowBackOutlined style={{ color: "fff" }} />
+              Voltar
+            </Button>
             <AppBar position="static">
               <Tabs
                 className="tab-panel"
@@ -279,7 +292,7 @@ const OrderEdit = () => {
                     Valor do Pagamento: R$ {paymentValue}
                   </p>
                 )}
-                {changeValue !== null && (
+                {changeValue !== null && changeValue !== 0 && (
                   <p className="infos-order-fields">
                     Valor do Troco: R${changeValue}
                   </p>
@@ -348,6 +361,28 @@ const OrderEdit = () => {
                   </Grid>
                 )}
               </Grid>
+              {status == 1 && (
+                <Button
+                  className="save-button"
+                  type="submit"
+                  variant="contained"
+                >
+                  <SaveOutlinedIcon style={{ color: "fff" }} />
+                  Salvar
+                </Button>
+              )}
+
+              {/* Botão de finalizar pedido em andamento */}
+              {status == 1 && (
+                <Button
+                  className="buttonFinishOrder-tabpanel"
+                  variant="contained"
+                  onClick={() => setOpenModal(true)}
+                  startIcon={<CheckCircleOutlineIcon />}
+                >
+                  Finalizar Pedido
+                </Button>
+              )}
             </TabPanel>
 
             {/* Tab menu de Produtos */}
@@ -445,17 +480,28 @@ const OrderEdit = () => {
                   />
                 </Grid>
               </Grid>
+              {status == 1 && (
+                <Button
+                  className="save-button"
+                  type="submit"
+                  variant="contained"
+                >
+                  <SaveOutlinedIcon style={{ color: "fff" }} />
+                  Salvar
+                </Button>
+              )}
+              {/* Botão de finalizar pedido em andamento */}
+              {status == 1 && (
+                <Button
+                  className="buttonFinishOrder-tabpanel"
+                  variant="contained"
+                  onClick={() => setOpenModal(true)}
+                  startIcon={<CheckCircleOutlineIcon />}
+                >
+                  Finalizar Pedido
+                </Button>
+              )}
             </TabPanel>
-            {status == 1 && (
-              <Button
-                variant="contained"
-                className="buttonSave-tabpanel"
-                type="submit"
-                startIcon={<SaveOutlinedIcon />}
-              >
-                Salvar Pedido
-              </Button>
-            )}
 
             {/* Modal de finalizar pedido, enviando requisição para o endpoint /finish */}
             <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -495,6 +541,7 @@ const OrderEdit = () => {
                       <FormattedInputs
                         className="fieldsFinishOrder"
                         onChange={(e) => setPaymentValue(e.target.value)}
+                        label="Valor do Pagamento"
                         price={paymentValue}
                         required={false}
                       />
@@ -519,18 +566,6 @@ const OrderEdit = () => {
                 </Button>
               </Box>
             </Modal>
-
-            {/* Botão de finalizar pedido em andamento */}
-            {status == 1 && (
-              <Button
-                className="buttonFinishOrder-tabpanel"
-                variant="contained"
-                onClick={() => setOpenModal(true)}
-                startIcon={<CheckCircleOutlineIcon />}
-              >
-                Finalizar Pedido
-              </Button>
-            )}
           </form>
         </Box>
       </ContentContainer>

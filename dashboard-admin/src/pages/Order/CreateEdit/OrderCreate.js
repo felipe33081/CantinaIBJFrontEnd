@@ -10,14 +10,14 @@ import Tab from "@material-ui/core/Tab";
 import { FormControl, Checkbox } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TabPanel from "../../../components/TabPanel/TabPanel";
 import { a11yProps } from "../../../components/TabPanel/TabPanel";
 import MaterialTable from "material-table";
 import { fetchCustomerList } from "../../../services/Customer/customers";
 import { Autocomplete } from "@mui/material";
 import { fetchProductList } from "../../../services/Product/product";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -26,8 +26,8 @@ TabPanel.propTypes = {
 };
 
 const CustomAutocomplete = styled(Autocomplete)({
-  '& .MuiOutlinedInput-root': {
-    padding: '11px', // Ajuste o padding conforme necessário para alterar a altura
+  "& .MuiOutlinedInput-root": {
+    padding: "11px", // Ajuste o padding conforme necessário para alterar a altura
   },
 });
 
@@ -266,7 +266,6 @@ const OrderCreate = () => {
                     onChange={(event) =>
                       setSelectedProductQuantity(event.target.value)
                     }
-                    
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -312,13 +311,9 @@ const OrderCreate = () => {
                 </Grid>
               </Grid>
             </TabPanel>
-            <Button
-              variant="contained"
-              className="buttonSave-tabpanel"
-              type="submit"
-              startIcon={<SaveOutlinedIcon />}
-            >
-              Salvar Pedido
+            <Button className="save-button" type="submit" variant="contained">
+              <SaveOutlinedIcon style={{ color: "fff" }} />
+              Cadastrar
             </Button>
           </form>
         </Box>

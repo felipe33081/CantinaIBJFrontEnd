@@ -32,6 +32,7 @@ import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 import TabPanel from "../../../components/TabPanel/TabPanel";
 import { a11yProps } from "../../../components/TabPanel/TabPanel";
 import MaterialTable from "material-table";
+import { ArrowBackOutlined } from "@material-ui/icons";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -99,7 +100,7 @@ const UserEdit = () => {
       emailVerified,
     };
     await putUserEdit(id, user).then(() => {
-      navigate("/usuario");
+      navigate(`/usuario/editar/${id}`);
     });
   };
 
@@ -108,10 +109,15 @@ const UserEdit = () => {
     const data = {
       groupName,
     };
-    await addUserGroupEdit(id, data).then(() => {
+    try {
+      await addUserGroupEdit(id, data);
       setOpenModal(false);
-      window.location.reload();
-    });
+      const response = await getUserGroupsList(id);
+      setData(response.data);
+      //window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSaveRemoveGroup = async (event) => {
@@ -119,14 +125,23 @@ const UserEdit = () => {
     const data = {
       groupName,
     };
-    await removeUserGroupEdit(id, data).then(() => {
-      setOpenModal(false);
-      window.location.reload();
-    });
+    try {
+      await removeUserGroupEdit(id, data);
+      setOpenRemoveModal(false);
+      const response = await getUserGroupsList(id);
+      setData(response.data);
+      //window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleBack = async () => {
+    navigate("/usuario");
   };
 
   return (
@@ -136,6 +151,14 @@ const UserEdit = () => {
         <Box>
           <form onSubmit={handleSubmit}>
             <h1 className="titulosh1">Atualizar usuário</h1>
+            <Button
+              className="back-to-grid"
+              variant="contained"
+              onClick={handleBack}
+            >
+              <ArrowBackOutlined style={{ color: "fff" }} />
+              Voltar
+            </Button>
             <AppBar position="static">
               <Tabs
                 className="tab-panel"

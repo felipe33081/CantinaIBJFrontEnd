@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getOrderList, deleteOrderById } from "../../../services/Order/order.js";
+import {
+  getOrderList,
+  deleteOrderById,
+} from "../../../services/Order/order.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import { TablePagination, Button, Typography } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
@@ -21,23 +24,24 @@ const OrderList = (props) => {
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [customerNameGrid, setCustomerNameGrid] = useState([]);
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
   };
 
   const handleDelete = () => {
-    selectedRows.map(row => {
+    selectedRows.map((row) => {
       deleteOrderById(row?.id)
-      .then(_ => {
-        tableRef.current.onQueryChange();
-      })
-      .catch(error => {
-        tableRef.current.onQueryChange();
-      })
-    })
+        .then((_) => {
+          tableRef.current.onQueryChange();
+        })
+        .catch((error) => {
+          tableRef.current.onQueryChange();
+        });
+    });
     setSelectedRows([]);
-  }
+  };
 
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
@@ -79,13 +83,17 @@ const OrderList = (props) => {
         </>
       )}
       <MaterialTable
-        style={{ zIndex:1}}
+        style={{ zIndex: 1 }}
         tableRef={tableRef}
         title="Pedidos"
         columns={[
           { title: "Id", field: "id" },
-          { title: "Nome cliente c/ cadastro", field: "customerPersonDisplay", filtering: false },
-          { title: "Nome cliente s/ cadastro", field: "customerName", filtering: false },
+          {
+            title: "Nome do Cliente",
+            field: "customerPersonDisplay",
+            render: (rowData) => rowData.customerPersonDisplay || rowData.customerName,
+            filtering: false,
+          },
           {
             title: "Valor total",
             field: "totalValue",
@@ -127,15 +135,14 @@ const OrderList = (props) => {
               />
             ),
           },
-          { title: "Criado por", field: "createdBy", filtering: false }
+          { title: "Criado por", field: "createdBy", filtering: false },
         ].filter((x) => x !== undefined)}
         actions={[
           {
             icon: EditIcon,
             tooltip: "Editar",
             position: "row",
-            onClick: (_, rowData) =>
-              navigate(`/pedido/editar/${rowData.id}`),
+            onClick: (_, rowData) => navigate(`/pedido/editar/${rowData.id}`),
           },
         ]}
         editable={{
@@ -152,7 +159,8 @@ const OrderList = (props) => {
         }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
-            const { page, pageSize, search, filters, orderBy, orderDirection } = allParams;
+            const { page, pageSize, search, filters, orderBy, orderDirection } =
+              allParams;
 
             const createdAt = filters.find(
               (f) => f.column.field === "createdAt"
@@ -164,6 +172,14 @@ const OrderList = (props) => {
               moment(createdAt).isValid() &&
               moment(createdAt).set("hour", "23").set("minute", "59")?._d;
 
+            const customerFilterValue =
+              enableFilter &&
+              filters.find(
+                (f) =>
+                  f.column.field === "customerPersonDisplay" ||
+                  f.column.field === "customerName"
+              )?.value;
+
             const filterInitialDate =
               enableFilter &&
               createdAt &&
@@ -174,19 +190,14 @@ const OrderList = (props) => {
               id:
                 enableFilter &&
                 filters.find((f) => f.column.field === "id")?.value,
-              customerPersonDisplay:
-                enableFilter &&
-                filters.find((f) => f.column.field === "customerPersonDisplay")?.value,
-              customerName:
-                enableFilter &&
-                filters.find((f) => f.column.field === "customerName")?.value,
+              customerFilterValue,
               initialDate: filterInitialDate,
               finalDate: filterFinalDate,
               page,
               size: pageSize,
               searchString: search,
               orderByField: orderBy?.field,
-              orderByDirection: orderDirection
+              orderByDirection: orderDirection,
             };
 
             getOrderList(filtersValues)

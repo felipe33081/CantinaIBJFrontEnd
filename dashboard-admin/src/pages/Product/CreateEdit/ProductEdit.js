@@ -10,7 +10,6 @@ import {
   Box,
   Button,
   Grid,
-  InputAdornment,
   TextField,
   FormControl,
   InputLabel,
@@ -19,6 +18,7 @@ import {
 } from "@material-ui/core";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import FormattedInputs from "./FormattedInputs";
+import { ArrowBackOutlined } from "@material-ui/icons";
 
 const ProductEdit = () => {
   const [productLoaded, setProductLoader] = useState(false);
@@ -61,15 +61,19 @@ const ProductEdit = () => {
       description,
       price,
       quantity,
-      disponibility
+      disponibility,
     };
     try {
       const response = await putProductEdit(id, product);
       console.log(response);
-      navigate("/produto");
+      navigate(`/produto/editar/${id}`);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleBack = async () => {
+    navigate("/produto");
   };
 
   return (
@@ -79,6 +83,14 @@ const ProductEdit = () => {
         <Box>
           <form onSubmit={handleSubmit}>
             <h1 className="titulosh1">Atualizar produtos</h1>
+            <Button
+              className="back-to-grid"
+              variant="contained"
+              onClick={handleBack}
+            >
+              <ArrowBackOutlined style={{ color: "fff" }} />
+              Voltar
+            </Button>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -96,6 +108,7 @@ const ProductEdit = () => {
               <Grid item xs={12} sm={4}>
                 <FormattedInputs
                   onChange={(e) => setPrice(e.target.value)}
+                  label="Preço"
                   price={price}
                   required={true}
                 />

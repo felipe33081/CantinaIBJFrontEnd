@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useHeader } from "../../../contexts/header";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
+import { ArrowBackOutlined } from "@material-ui/icons";
 
 const CustomerEdit = () => {
   const [customerLoaded, setCustomerLoaded] = useState(false);
@@ -54,11 +55,15 @@ const CustomerEdit = () => {
     try {
       const response = await putCustomerEdit(id, customer);
       console.log(response);
-      navigate("/cliente");
+      navigate(`/cliente/editar/${id}`);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleBack = async () => {
+    navigate("/cliente");
+  }
 
   return (
     <>
@@ -67,6 +72,14 @@ const CustomerEdit = () => {
         <Box>
           <form onSubmit={handleSubmit}>
             <h1 className="titulosh1">Atualizar cliente</h1>
+            <Button
+              className="back-to-grid"
+              variant="contained"
+              onClick={handleBack}
+            >
+              <ArrowBackOutlined style={{ color: "fff" }} />
+              Voltar
+            </Button>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -112,7 +125,10 @@ const CustomerEdit = () => {
                   fullWidth
                   variant="outlined"
                   required={true}
-                  value={balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  value={balance.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
                   disabled={true}
                   sx={{ mb: 3 }}
                 />

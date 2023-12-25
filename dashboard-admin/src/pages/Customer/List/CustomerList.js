@@ -30,17 +30,28 @@ const CustomerList = (props) => {
   };
 
   const handleDelete = () => {
-    selectedRows.map(row => {
+    selectedRows.map((row) => {
       deleteCustomerById(row?.id)
-      .then(_ => {
-        tableRef.current.onQueryChange();
-      })
-      .catch(error => {
-        tableRef.current.onQueryChange();
-      })
-    })
+        .then((_) => {
+          tableRef.current.onQueryChange();
+        })
+        .catch((error) => {
+          tableRef.current.onQueryChange();
+        });
+    });
     setSelectedRows([]);
-  }
+  };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return ""; // Verifica se o número está vazio ou nulo
+
+    // Suponha que o número de telefone tenha 10 dígitos
+    const areaCode = phoneNumber.substring(0, 2);
+    const firstPart = phoneNumber.substring(2, 7);
+    const secondPart = phoneNumber.substring(7, 11);
+
+    return `(${areaCode}) ${firstPart}-${secondPart}`;
+  };
 
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
@@ -87,7 +98,12 @@ const CustomerList = (props) => {
         title="Clientes"
         columns={[
           { title: "Nome", field: "name" },
-          { title: "Telefone", field: "phone", filtering: false },
+          {
+            title: "Telefone",
+            field: "phone",
+            filtering: false,
+            render: (rowData) => formatPhoneNumber(rowData.phone),
+          },
           {
             title: "Saldo",
             field: "balance",
@@ -136,15 +152,14 @@ const CustomerList = (props) => {
               />
             ),
           },*/
-          { title: "Criado por", field: "createdBy" }
+          { title: "Criado por", field: "createdBy" },
         ].filter((x) => x !== undefined)}
         actions={[
           {
             icon: EditIcon,
             tooltip: "Editar",
             position: "row",
-            onClick: (_, rowData) =>
-              navigate(`/cliente/editar/${rowData.id}`),
+            onClick: (_, rowData) => navigate(`/cliente/editar/${rowData.id}`),
           },
         ]}
         editable={{
