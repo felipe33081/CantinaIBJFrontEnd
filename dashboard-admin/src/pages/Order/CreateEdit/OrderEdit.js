@@ -76,6 +76,13 @@ const OrderEdit = () => {
       try {
         const response = await getOrderById(id);
         const productData = response.data;
+
+        const updatedProducts = productData.products.map((product) => ({
+          ...product,
+          price: `R$ ` + product.price,
+          priceTotalValue: `R$ ` + product.price * product.quantity, // Recriar o priceTotalValue
+        }));
+
         setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
         setPaymentValue(productData.paymentValue);
         setChangeValue(productData.changeValue);
@@ -85,7 +92,7 @@ const OrderEdit = () => {
         setCustomerPerson(productData.customerPersonId);
         setCustomerPersonDisplay(productData.customerPersonDisplay);
         setCustomerName(productData.customerName);
-        setData(productData.products);
+        setData(updatedProducts);
         setLoading(true);
       } catch (error) {
         console.log(error);
@@ -156,6 +163,8 @@ const OrderEdit = () => {
           productId: selectedProduct.id,
           name: `${selectedProduct.name} - ${selectedProduct.description}`,
           quantity: selectedProductQuantity,
+          price: `R$ ` + selectedProduct.price,
+          priceTotalValue: `R$ ` + selectedProduct.price * selectedProductQuantity
         },
       ]);
       // Limpe os estados após adicionar um item
@@ -181,6 +190,13 @@ const OrderEdit = () => {
       // Atualizar os dados da página após a submissão ser bem-sucedida
       const response = await getOrderById(id);
       const productData = response.data;
+
+      const updatedProducts = productData.products.map((product) => ({
+        ...product,
+        price: `R$ ` + product.price,
+        priceTotalValue: `R$ ` + product.price * product.quantity, // Recriar o priceTotalValue
+      }));
+
       setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
       setPaymentValue(productData.paymentValue);
       setChangeValue(productData.changeValue);
@@ -190,7 +206,7 @@ const OrderEdit = () => {
       setCustomerPerson(productData.customerPersonId);
       setCustomerPersonDisplay(productData.customerPersonDisplay);
       setCustomerName(productData.customerName);
-      setData(productData.products);
+      setData(updatedProducts);
       setOpenModal(false);
       setLoading(true);
     } catch (error) {
@@ -214,6 +230,13 @@ const OrderEdit = () => {
       // Atualizar os dados da página após a submissão ser bem-sucedida
       const response = await getOrderById(id);
       const productData = response.data;
+
+      const updatedProducts = productData.products.map((product) => ({
+        ...product,
+        price: `R$ ` + product.price,
+        priceTotalValue: `R$ ` + product.price * product.quantity, // Recriar o priceTotalValue
+      }));
+
       setPaymentOfTypeDisplay(productData.paymentOfTypeDisplay);
       setPaymentValue(productData.paymentValue);
       setChangeValue(productData.changeValue);
@@ -223,7 +246,7 @@ const OrderEdit = () => {
       setCustomerPerson(productData.customerPersonId);
       setCustomerPersonDisplay(productData.customerPersonDisplay);
       setCustomerName(productData.customerName);
-      setData(productData.products);
+      setData(updatedProducts);
       setLoading(true);
     } catch (error) {
       console.log(error);
@@ -314,7 +337,7 @@ const OrderEdit = () => {
                     id="id"
                     name="id"
                     fullWidth
-                    label="Id do Pedido"
+                    label="Número do Pedido"
                     value={id}
                     variant="outlined"
                     disabled={true}
@@ -450,6 +473,8 @@ const OrderEdit = () => {
                         field: "productName", // Nome temporário para a nova coluna concatenada
                       },
                       { title: "Quantidade", field: "quantity" },
+                      { title: "Preço Unitário", field: "price" },
+                      { title: "Preço Total", field: "priceTotalValue" }
                     ]}
                     data={data.map((item) => ({
                       ...item,
@@ -466,11 +491,6 @@ const OrderEdit = () => {
                       toolbar: false,
                     }}
                     editable={{
-                      onRowUpdate: (newData, oldData) =>
-                        new Promise((resolve, reject) => {
-                          handleRowUpdate(newData, oldData);
-                          resolve();
-                        }),
                       onRowDelete: (rowData) =>
                         new Promise((resolve, reject) => {
                           handleDeleteRow(rowData);

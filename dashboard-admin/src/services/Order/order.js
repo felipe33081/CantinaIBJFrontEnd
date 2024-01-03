@@ -39,7 +39,7 @@ export const postOrderCreate = async ( data ) => {
 
     try{
         let result = await axios.post(url, data, config);
-        Toast.showSuccessMessage("Pedido adicionado com sucesso!");
+        Toast.showSuccessMessage(`Pedido adicionado com sucesso! Número do Pedido: ${result.data}`);
         return result.data;
     }
     catch (err) {

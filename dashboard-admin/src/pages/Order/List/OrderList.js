@@ -87,7 +87,7 @@ const OrderList = (props) => {
         tableRef={tableRef}
         title="Pedidos"
         columns={[
-          { title: "Id", field: "id" },
+          { title: "Número do Pedido", field: "id" },
           {
             title: "Nome do Cliente",
             field: "customerPersonDisplay",

@@ -99,6 +99,8 @@ const OrderCreate = () => {
           productId: selectedProduct.id,
           nameProduct: `${selectedProduct.name} - ${selectedProduct.description}`,
           quantity: selectedProductQuantity,
+          price: `R$ ` + selectedProduct.price,
+          totalValue: `R$ ` + selectedProduct.price * selectedProductQuantity
         },
       ]);
       // Limpe os estados após adicionar um item
@@ -285,6 +287,8 @@ const OrderCreate = () => {
                     columns={[
                       { title: "Nome do Produto", field: "nameProduct" },
                       { title: "Quantidade", field: "quantity" },
+                      { title: "Preço Unitário", field: "price" },
+                      { title: "Preço Total", field: "totalValue" }
                     ]}
                     data={data}
                     title="Produtos"
@@ -296,11 +300,6 @@ const OrderCreate = () => {
                       toolbar: false,
                     }}
                     editable={{
-                      onRowUpdate: (newData, oldData) =>
-                        new Promise((resolve, reject) => {
-                          handleRowUpdate(newData, oldData);
-                          resolve();
-                        }),
                       onRowDelete: (rowData) =>
                         new Promise((resolve, reject) => {
                           handleDeleteRow(rowData);
