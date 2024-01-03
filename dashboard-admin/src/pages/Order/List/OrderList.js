@@ -7,7 +7,7 @@ import {
   deleteOrderById,
 } from "../../../services/Order/order.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { TablePagination, Button, Typography } from "@material-ui/core";
+import { TablePagination, Button, Typography, Chip } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -15,6 +15,25 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import Helper from "../../../helpers/format.helpers";
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
+
+const makeStyle = (statusDisplay) => {
+  if (statusDisplay === "Finalizado") {
+    return {
+      background: "rgb(145 254 159 / 47%)",
+      color: "green",
+    };
+  } else if (statusDisplay === "Excluído") {
+    return {
+      background: "#ffadad8f",
+      color: "red",
+    };
+  } else if (statusDisplay === "Em andamento") {
+    return {
+      background: "#59bfff",
+      color: "white",
+    };
+  }
+};
 
 const OrderList = (props) => {
   const { hideActions } = props;
@@ -91,7 +110,8 @@ const OrderList = (props) => {
           {
             title: "Nome do Cliente",
             field: "customerPersonDisplay",
-            render: (rowData) => rowData.customerPersonDisplay || rowData.customerName,
+            render: (rowData) =>
+              rowData.customerPersonDisplay || rowData.customerName,
             filtering: false,
           },
           {
@@ -100,20 +120,16 @@ const OrderList = (props) => {
             filtering: false,
             render: ({ totalValue }) => Helper.formatCurrencyAsIs(totalValue),
           },
-          { title: "Status", field: "statusDisplay" },
-          // { title: "Tipo de pagamento", field: "paymentOfTypeDisplay", filtering: false },
-          // {
-          //   title: "Valor do pagamento",
-          //   field: "paymentValue",
-          //   filtering: false,
-          //   render: ({ paymentValue }) => Helper.formatCurrencyAsIs(paymentValue),
-          // },
-          // {
-          //   title: "Troco",
-          //   field: "changeValue",
-          //   filtering: false,
-          //   render: ({ changeValue }) => Helper.formatCurrencyAsIs(changeValue),
-          // },
+          {
+            title: "Status",
+            field: "statusDisplay",
+            render: (rowData) => (
+              <Chip
+                label={rowData.statusDisplay}
+                style={makeStyle(rowData.statusDisplay)}
+              />
+            ),
+          },
           {
             title: "Criado em",
             field: "createdAt",
@@ -152,7 +168,7 @@ const OrderList = (props) => {
                 .then((_) => {
                   resolve();
                 })
-                .catch((error) => {
+                .catch(() => {
                   resolve();
                 });
             }),
