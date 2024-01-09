@@ -101,7 +101,7 @@ const Sidebar = () => {
         <div className="menu">
           {SidebarData.map((item, index) => {
             // Adicione o componente Link para o item "Customer"
-            if (item.heading === "Dashboard") {
+            if (item.heading === "Painel") {
               return (
                 <Link
                   to="/" // Adicione a rota aqui
