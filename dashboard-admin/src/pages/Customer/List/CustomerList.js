@@ -67,7 +67,6 @@ const CustomerList = (props) => {
             <div>
               <Link
                 to="/cliente/novo"
-                style={{ backgroundColor: "#3a86ff", textDecoration: "none" }}
                 className="uk-button"
               >
                 <i

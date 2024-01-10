@@ -410,7 +410,7 @@
  .amplify-button--primary {
    border-width: 1px;
    /* background: linear-gradient(to right, #2b9348, #fca311); */
-   background-color: #1b263b;
+   background-color: #367fa9;
    border-color: transparent;
    color: var(--amplify-components-button-primary-color);
    --amplify-internal-button-disabled-border-color: transparent;
@@ -421,12 +421,12 @@
    --amplify-internal-button-loading-color: var(--amplify-components-button-primary-loading-color);
  }
  .amplify-button--primary:hover {
-   background-color: #1525b8;
-   border-color: black;
+   background-color: #286090;
+   border-color: #204d74;
    color: #e6e6e6;
  }
  .amplify-button--primary:focus {
-   background-color: #1d2d44;
+   background-color: #367fa9;
    border-color: transparent;
    color: var(--amplify-components-button-primary-focus-color);
    box-shadow: var(--amplify-components-button-primary-focus-box-shadow);
@@ -434,7 +434,7 @@
  .amplify-button--primary:active {
    background-color: #000000;
    border-color: transparent;
-   color: var(--amplify-components-button-primary-active-color);
+   color: #333;
  }
  .amplify-button--link {
    border-width: 0;

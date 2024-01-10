@@ -76,7 +76,7 @@ const OrderList = (props) => {
             <div className="uk-width-auto@m uk-width-1-1">
               <Link
                 to="/pedido/novo"
-                style={{ backgroundColor: "#3a86ff", textDecoration: "none" }}
+                
                 className="uk-button"
               >
                 <i
