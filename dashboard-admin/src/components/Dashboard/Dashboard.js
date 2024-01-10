@@ -11,12 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const params = {
-          orderStatus: "Finished",
-          FinalDate: "2024-01-09 12:09:03",
-        };
-
-        const data = await getDashboardData(params);
+        const data = await getDashboardData();
         setDashboardData(data);
       } catch (error) {
         console.error("Erro ao buscar dados do dashboard:", error);
