@@ -41,11 +41,10 @@ export default function BasicTable() {
 
   return (
     <div className="Table-refe">
-      <h3 className="titulosh1">Pedidos recentes</h3>
       <MaterialTable
         style={{ zIndex: 1 }}
         tableRef={tableRef}
-        title="Pedidos"
+        title="Pedidos Recentes"
         columns={[
           { title: "Número do Pedido", field: "id", sorting: false },
           {

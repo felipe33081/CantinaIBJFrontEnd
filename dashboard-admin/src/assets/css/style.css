@@ -130,6 +130,7 @@
 /*TABELA GRID*/
 .Table-refe {
   max-height: 600px; /* Largura máxima desejada */
+  padding-top: 10px;
 }
 
 /* Ajuste das dimensões dos elementos filhos da tabela */
@@ -198,13 +199,12 @@
 .dashboard-container {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Divide o contêiner em duas colunas iguais */
-  gap: 10px; /* Espaçamento entre os gráficos */
-  margin-top: 40px;
+  gap: 5px; /* Espaçamento entre os gráficos */
 }
 
 .chart-container {
   width: 94%;
-  margin: 0 auto;
+  margin: 0 0;
 }
 
 /* Estilo específico para o gráfico de barras */
