@@ -2,13 +2,14 @@ import { getToken } from '../../repository/AuthAmplify';
 import { pickBy } from 'lodash';
 import axios from 'axios';
 import Toast from '../../components/Toasts/Toasts';
+import { Environment } from '../../Environments/Index';
 
 export const getCustomerList = async ( filters) => {
     filters.orderBy = filters?.orderByField != undefined ? filters?.orderByField + "_" + filters?.orderByDirection.toUpperCase() : undefined;
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
+    let url = Environment.BASE_URL + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +33,7 @@ export const fetchCustomerList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
+    let url = Environment.BASE_URL + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -55,7 +56,7 @@ export const fetchCustomerList = async ( filters) => {
 export const getCustomerById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
+    let url = Environment.BASE_URL + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -78,7 +79,7 @@ export const getCustomerById = async ( id ) => {
 export const postCustomerCreate = async ( data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/CustomerPerson";
+    let url = Environment.BASE_URL + "/CustomerPerson";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -102,7 +103,7 @@ export const postCustomerCreate = async ( data ) => {
 export const putCustomerEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
+    let url = Environment.BASE_URL + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -126,7 +127,7 @@ export const putCustomerEdit = async ( id, data ) => {
 export const deleteCustomerById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/CustomerPerson/${id}`;
+    let url = Environment.BASE_URL + `/CustomerPerson/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

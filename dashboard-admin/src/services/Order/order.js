@@ -2,13 +2,14 @@ import { getToken } from '../../repository/AuthAmplify';
 import { pickBy } from 'lodash';
 import axios from 'axios';
 import Toast from '../../components/Toasts/Toasts';
+import { Environment } from '../../Environments/Index';
 
 export const getOrderList = async ( filters) => {
     filters.orderBy = filters?.orderByField != undefined ? filters?.orderByField + "_" + filters?.orderByDirection.toUpperCase() : undefined;
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Order";
+    let url = Environment.BASE_URL + "/Order";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -31,7 +32,7 @@ export const getOrderList = async ( filters) => {
 export const postOrderCreate = async ( data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Order";
+    let url = Environment.BASE_URL + "/Order";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -55,7 +56,7 @@ export const postOrderCreate = async ( data ) => {
 export const postOrderFinish = async ( id, data ) => {
     
     let token = await getToken();
-    let url = 'https://web-cantina-ibj.azurewebsites.net/v1' + `/Order/${id}/finish`;
+    let url = Environment.BASE_URL + `/Order/${id}/finish`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -79,7 +80,7 @@ export const postOrderFinish = async ( id, data ) => {
 export const getOrderById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
+    let url = Environment.BASE_URL + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -102,7 +103,7 @@ export const getOrderById = async ( id ) => {
 export const putOrderEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
+    let url = Environment.BASE_URL + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -126,7 +127,7 @@ export const putOrderEdit = async ( id, data ) => {
 export const deleteOrderById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Order/${id}`;
+    let url = Environment.BASE_URL + `/Order/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

@@ -2,11 +2,12 @@ import { getToken } from '../../repository/AuthAmplify';
 import { pickBy } from 'lodash';
 import axios from 'axios';
 import Toast from '../../components/Toasts/Toasts';
+import { Environment } from '../../Environments/Index';
 
 export const getUserList = async (props) => {
     const { size, page, email, name, paginationToken } = props;
     let token = await getToken();
-    var url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users?size=${size}&page=${page}`;
+    var url = Environment.BASE_URL + `/Users?size=${size}&page=${page}`;
 
     url = name ? url + `&filter=name^="${name}"` : url;
 	url = email ? url + `&filter=email^="${email}"` : url;
@@ -26,7 +27,7 @@ export const getUserList = async (props) => {
 
 export const getUserGroupsList = async ( id ) => {
     let token = await getToken();
-    var url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}/Groups?page=0&size=5`;
+    var url = Environment.BASE_URL + `/Users/${id}/Groups?page=0&size=5`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -43,7 +44,7 @@ export const getUserGroupsList = async ( id ) => {
 export const getUserById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}`;
+    let url = Environment.BASE_URL + `/Users/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -66,7 +67,7 @@ export const getUserById = async ( id ) => {
 export const postUserCreate = async ( data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Users";
+    let url = Environment.BASE_URL + "/Users";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -90,7 +91,7 @@ export const postUserCreate = async ( data ) => {
 export const putUserEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}`;
+    let url = Environment.BASE_URL + `/Users/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -114,7 +115,7 @@ export const putUserEdit = async ( id, data ) => {
 export const addUserGroupEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}/AddUserToGroup`;
+    let url = Environment.BASE_URL + `/Users/${id}/AddUserToGroup`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -138,7 +139,7 @@ export const addUserGroupEdit = async ( id, data ) => {
 export const removeUserGroupEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}/RemoveUserToGroup`;
+    let url = Environment.BASE_URL + `/Users/${id}/RemoveUserToGroup`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -162,7 +163,7 @@ export const removeUserGroupEdit = async ( id, data ) => {
 export const deleteUserById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Users/${id}`;
+    let url = Environment.BASE_URL + `/Users/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

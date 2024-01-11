@@ -2,13 +2,14 @@ import { getToken } from '../../repository/AuthAmplify';
 import { pickBy } from 'lodash';
 import axios from 'axios';
 import Toast from '../../components/Toasts/Toasts';
+import { Environment } from '../../Environments/Index';
 
 export const getProductList = async ( filters) => {
     filters.orderBy = filters?.orderByField != undefined ? filters?.orderByField + "_" + filters?.orderByDirection.toUpperCase() : undefined;
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
+    let url = Environment.BASE_URL + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,7 +23,7 @@ export const getProductList = async ( filters) => {
         if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível obter a lista de clientes");
+			Toast.showErrorMessage("Não foi possível obter a lista de produtos");
 		}
 		throw err;
     }
@@ -32,7 +33,7 @@ export const fetchProductList = async ( filters) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
+    let url = Environment.BASE_URL + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +47,7 @@ export const fetchProductList = async ( filters) => {
         if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível obter a lista de clientes");
+			Toast.showErrorMessage("Não foi possível obter a lista de produtos");
 		}
 		throw err;
     }
@@ -55,7 +56,7 @@ export const fetchProductList = async ( filters) => {
 export const getProductById = async (id) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+    let url = Environment.BASE_URL + `/Product/${id}`;
     
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -69,7 +70,7 @@ export const getProductById = async (id) => {
 		if (err?.response?.data?.errors) {
 			Toast.showErrorMessage(err.response.data.errors);
 		} else {
-			Toast.showErrorMessage("Não foi possível excluir um cliente");
+			Toast.showErrorMessage("Não foi possível excluir o produto");
 		}
 		throw err;
 	}
@@ -77,7 +78,7 @@ export const getProductById = async (id) => {
 
 export const postProductCreate = async ( data ) => {
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + "/Product";
+    let url = Environment.BASE_URL + "/Product";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -101,7 +102,7 @@ export const postProductCreate = async ( data ) => {
 export const putProductEdit = async ( id, data ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+    let url = Environment.BASE_URL + `/Product/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -125,7 +126,7 @@ export const putProductEdit = async ( id, data ) => {
 export const deleteProductById = async ( id ) => {
     
     let token = await getToken();
-    let url = "https://web-cantina-ibj.azurewebsites.net/v1" + `/Product/${id}`;
+    let url = Environment.BASE_URL + `/Product/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
