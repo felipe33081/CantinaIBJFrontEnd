@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
-import { getProductList, deleteProductById } from "../../../services/Product/product.js";
+import {
+  getProductList,
+  deleteProductById,
+} from "../../../services/Product/product.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { TablePagination, Button, Typography } from "@material-ui/core";
+import { TablePagination, Button, Typography, Chip } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -12,6 +15,20 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import Helper from "../../../helpers/format.helpers";
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
+
+const makeStyle = (disponibility) => {
+  if (disponibility == true) {
+    return {
+      background: "rgb(145 254 159 / 47%)",
+      color: "green",
+    };
+  } else if (disponibility == false) {
+    return {
+      background: "#ffadad8f",
+      color: "red",
+    };
+  }
+};
 
 const ProductList = (props) => {
   const { hideActions } = props;
@@ -27,17 +44,17 @@ const ProductList = (props) => {
   };
 
   const handleDelete = () => {
-    selectedRows.map(row => {
+    selectedRows.map((row) => {
       deleteProductById(row?.id)
-      .then(_ => {
-        tableRef.current.onQueryChange();
-      })
-      .catch(error => {
-        tableRef.current.onQueryChange();
-      })
-    })
+        .then((_) => {
+          tableRef.current.onQueryChange();
+        })
+        .catch((error) => {
+          tableRef.current.onQueryChange();
+        });
+    });
     setSelectedRows([]);
-  }
+  };
 
   const actions = {
     onRefresh: () => tableRef?.current?.onQueryChange(),
@@ -51,10 +68,7 @@ const ProductList = (props) => {
         <>
           <div>
             <div>
-              <Link
-                to="/produto/novo"
-                className="uk-button"
-              >
+              <Link to="/produto/novo" className="uk-button">
                 <i
                   className="uk-margin-small-right"
                   style={{ color: "white" }}
@@ -95,24 +109,12 @@ const ProductList = (props) => {
             title: "Disponibilidade",
             field: "disponibility",
             filtering: false,
-            render: ({ disponibility }) => (
-              <strong
-                className={`uk-text-${
-                  disponibility !== true ? "danger" : "success"
-                }`}
-              >
-                {disponibility == true
-                  ? "Produto disponível"
-                  : "Produto indisponível"}
-              </strong>
+            render: (rowData) => (
+              <Chip
+                label={rowData.disponibility ? "Produto Disponível" : "Produto Indisponível"}
+                style={makeStyle(rowData.disponibility)}
+              />
             ),
-            draggable: false,
-            cellStyle: {
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              maxWidth: 200,
-            }
           },
           {
             title: "Criado em",
@@ -135,15 +137,14 @@ const ProductList = (props) => {
               />
             ),
           },
-          { title: "Criado por", field: "createdBy" }
+          { title: "Criado por", field: "createdBy" },
         ].filter((x) => x !== undefined)}
         actions={[
           {
             icon: EditIcon,
             tooltip: "Editar",
             position: "row",
-            onClick: (_, rowData) =>
-              navigate(`/produto/editar/${rowData.id}`),
+            onClick: (_, rowData) => navigate(`/produto/editar/${rowData.id}`),
           },
         ]}
         editable={{
@@ -160,7 +161,7 @@ const ProductList = (props) => {
         }}
         data={(allParams) =>
           new Promise((resolve, reject) => {
-            const { page, pageSize, search, filters, orderBy, orderDirection } = 
+            const { page, pageSize, search, filters, orderBy, orderDirection } =
               allParams;
 
             const createdAt = filters.find(
@@ -192,7 +193,7 @@ const ProductList = (props) => {
               size: pageSize,
               searchString: search,
               orderByField: orderBy?.field,
-              orderByDirection: orderDirection
+              orderByDirection: orderDirection,
             };
 
             getProductList(filtersValues)

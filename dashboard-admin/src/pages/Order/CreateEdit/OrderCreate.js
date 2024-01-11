@@ -76,7 +76,7 @@ const OrderCreate = () => {
   const handleProductsChange = async (event, newValue) => {
     if (newValue !== null) {
       try {
-        const response = await fetchProductList({ Name: newValue });
+        const response = await fetchProductList({ searchString: newValue });
         setProducts(response.data);
       } catch (error) {
         console.error("Erro ao obter a lista de produtos:", error);

@@ -4,23 +4,26 @@ import { useHeader } from "../../../contexts/header";
 import ContentContainer from "../../../containers/ContentContainer";
 import { getUserList, deleteUserById } from "../../../services/User/user";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { TablePagination, Button, Typography } from "@material-ui/core";
+import { TablePagination, Button, Typography, Chip } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Helper from "../../../helpers/format.helpers";
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
 
-const statusFiltering = [
-  {
-    name: "Confirmado",
-    value: "CONFIRMED",
-  },
-  {
-    name: "Alteração de Senha",
-    value: "FORCE_CHANGE_PASSWORD",
-  },
-];
+const makeStyle = (userStatus) => {
+  if (userStatus === "CONFIRMED") {
+    return {
+      background: "rgb(145 254 159 / 47%)",
+      color: "green",
+    };
+  } else if (userStatus === "FORCE_CHANGE_PASSWORD") {
+    return {
+      background: "#ffadad8f",
+      color: "red",
+    };
+  }
+};
 
 const UserList = (props) => {
   const { hideActions } = props;
@@ -101,43 +104,15 @@ const UserList = (props) => {
             filtering: false,
             render: ({ phoneNumber }) => Helper.formatPhoneNumber(phoneNumber),
           },
-          // {
-          //   title: "Verificação do E-mail",
-          //   field: "emailVerified",
-          //   filtering: false,
-          //   render: ({ emailVerified }) => (
-          //     <strong
-          //       className={`uk-text-${
-          //         emailVerified !== true ? "danger" : "success"
-          //       }`}
-          //     >
-          //       {emailVerified == true
-          //         ? "E-mail verificado"
-          //         : "E-mail não verificado"}
-          //     </strong>
-          //   ),
-          //   draggable: false,
-          //   cellStyle: {
-          //     textOverflow: "ellipsis",
-          //     whiteSpace: "nowrap",
-          //     overflow: "hidden",
-          //     maxWidth: 200,
-          //   },
-          // },
           {
             title: "Status",
             field: "userStatus",
             filtering: false,
-            render: ({ userStatus }) => (
-              <strong
-                className={`uk-text-${
-                  userStatus !== "CONFIRMED" ? "danger" : "success"
-                }`}
-              >
-                {userStatus == "CONFIRMED"
-                  ? "Confirmado"
-                  : "Alteração de Senha"}
-              </strong>
+            render: (rowData) => (
+              <Chip
+                label={rowData.userStatus === "CONFIRMED" ? "Confirmado" : "Alteração de Senha"}
+                style={makeStyle(rowData.userStatus)}
+              />
             ),
             draggable: false,
             cellStyle: {
