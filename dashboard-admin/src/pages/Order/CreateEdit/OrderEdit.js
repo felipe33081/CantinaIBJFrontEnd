@@ -360,26 +360,19 @@ const OrderEdit = () => {
                   </Grid>
                 )}
                 {customerPersonId && (
-                  <Grid item xs={10} sm={10}>
-                    <CustomAutocomplete
+                  <Grid item xs={10}>
+                    <TextField
                       id="customerPerson"
                       options={customers}
                       value={customerPersonDisplay}
                       disabled={true}
+                      fullWidth
+                      label="Selecione o cliente"
+                      variant="outlined"
                       onChange={(event, newValue) =>
                         setCustomerPersonDisplay(newValue)
                       }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Selecione o cliente"
-                          variant="outlined"
-                          onChange={(e) =>
-                            handleCustomerPersonChange(e, e.target.value)
-                          }
-                          sx={{ mb: 3 }}
-                        />
-                      )}
+                      sx={{ mb: 3 }}
                     />
                   </Grid>
                 )}
