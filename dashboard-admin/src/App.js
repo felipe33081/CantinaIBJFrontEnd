@@ -8,7 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   Authenticator,
   translations,
-  withAuthenticator,
+  withAuthenticator
 } from "@aws-amplify/ui-react";
 import { Amplify, I18n } from "aws-amplify";
 import awsExports from "./aws-exports";
@@ -39,10 +39,14 @@ function App() {
             <Route path="/pedido" element={<OrderList />} />
             <Route path="/pedido/novo" element={<OrderCreate />} />
             <Route exact path="/pedido/editar/:id" element={<OrderEdit />} />
-            
+
             <Route path="/cliente" element={<CustomerList />} />
             <Route path="/cliente/novo" element={<CustomerCreate />} />
-            <Route exact path="/cliente/editar/:id" element={<CustomerEdit />} />
+            <Route
+              exact
+              path="/cliente/editar/:id"
+              element={<CustomerEdit />}
+            />
 
             <Route path="/produto" element={<ProductList />} />
             <Route path="/produto/novo" element={<ProductCreate />} />
