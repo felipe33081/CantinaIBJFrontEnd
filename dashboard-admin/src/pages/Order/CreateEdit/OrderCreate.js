@@ -87,6 +87,16 @@ const OrderCreate = () => {
   const handleRowUpdate = (newData, oldData) => {
     const updatedData = [...data];
     const index = oldData.tableData.id;
+  
+    // Certifique-se de que a quantidade seja um número válido
+    const quantity = Number(newData.quantity);
+  
+    // Verifique se o preço está presente e é válido
+    const price = parseFloat(newData.price.replace('R$', '').trim());
+  
+    // Atualize o valor total do preço
+    newData.totalValue = `R$ ` + (price * quantity).toFixed(2);
+  
     updatedData[index] = newData;
     setData(updatedData);
   };
@@ -285,10 +295,36 @@ const OrderCreate = () => {
                   <MaterialTable
                     style={{ zIndex: 1 }}
                     columns={[
-                      { title: "Nome do Produto", field: "nameProduct" },
-                      { title: "Quantidade", field: "quantity" },
-                      { title: "Preço Unitário", field: "price" },
-                      { title: "Preço Total", field: "totalValue" }
+                      {
+                        title: "Nome do Produto",
+                        field: "nameProduct",
+                        editable: 'never'
+                      },
+                      {
+                        title: "Quantidade",
+                        field: "quantity",
+                        editable: 'onUpdate',
+                        editComponent: props => (
+                          <input
+                            type="number"  // Define o input como numérico
+                            value={props.value}
+                            onChange={e => props.onChange(e.target.value)}
+                            min="0"  // Evita números negativos
+                            step="1" // Incrementa de 1 em 1
+                            style={{ width: "100%" }}  // Garante que o campo use toda a largura da célula
+                          />
+                        )
+                      },
+                      {
+                        title: "Preço Unitário",
+                        field: "price",
+                        editable: 'never'
+                      },
+                      {
+                        title: "Preço Total",
+                        field: "totalValue",
+                        editable: 'never'
+                      }
                     ]}
                     data={data}
                     title="Produtos"
@@ -305,6 +341,11 @@ const OrderCreate = () => {
                           handleDeleteRow(rowData);
                           resolve();
                         }),
+                        onRowUpdate: (rowData, oldData) =>
+                        new Promise((resolve, reject) => {
+                          handleRowUpdate(rowData, oldData);
+                          resolve();
+                        })
                     }}
                   />
                 </Grid>
