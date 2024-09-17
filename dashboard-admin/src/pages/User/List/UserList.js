@@ -184,7 +184,6 @@ const UserList = (props) => {
               .catch((err) => reject(err));
           })
         }
-        onChangeRowsPerPage={onRowsPerPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         localization={localizationOptions}
         components={{

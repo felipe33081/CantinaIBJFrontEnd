@@ -6,6 +6,8 @@ import { Box, TextField, Button, Grid } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const UserCreate = () => {
   const navigate = useNavigate();
@@ -13,7 +15,16 @@ const UserCreate = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const user = {
@@ -79,8 +90,24 @@ const UserCreate = () => {
                   variant="outlined"
                   required={true}
                   placeholder="Senha@123"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   sx={{ mb: 3 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
             </Grid>

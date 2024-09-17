@@ -216,7 +216,6 @@ const ProductList = (props) => {
               .catch((err) => reject(err));
           })
         }
-        onChangeRowsPerPage={onRowsPerPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         localization={localizationOptions}
         components={{

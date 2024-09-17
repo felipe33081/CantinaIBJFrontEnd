@@ -7,14 +7,37 @@ import {
   deleteCustomerById,
 } from "../../../services/Customer/customers";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { TablePagination, Button, Typography } from "@material-ui/core";
+import { TablePagination, Button, Typography, Chip } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import Helper from "../../../helpers/format.helpers";
+import SearchIcon from '@mui/icons-material/Search';
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
+import ClientDetailsModal from "../../../components/Modal/ClientDetailsModal.jsx";
+
+const makeStyle = (balance) => {
+  if (balance == 0) {
+    return {
+      background: "hsl(210, 10%, 58%)",
+      color: "white",
+    };
+  }
+  else if (balance < 0) {
+    return {
+      background: "#ffadad8f",
+      color: "red",
+    };
+  }
+  else {
+    return {
+      background: "rgb(145 254 159 / 47%)",
+      color: "green",
+    };
+  }
+};
 
 const CustomerList = (props) => {
   const { hideActions } = props;
@@ -24,6 +47,16 @@ const CustomerList = (props) => {
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = (rowData) => {
+    setSelectedRows(rowData); // Armazena os dados da linha selecionada
+    setOpenModal(true); // Abre o modal
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false); // Fecha o modal
+  };
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
@@ -107,7 +140,12 @@ const CustomerList = (props) => {
             title: "Saldo",
             field: "balance",
             filtering: false,
-            render: ({ balance }) => Helper.formatCurrencyAsIs(balance),
+            render: ({ balance }) => (
+              <Chip
+                style={makeStyle(balance)}
+                label={Helper.formatCurrencyAsIs(balance)}
+              />
+            ),
           },
           {
             title: "Criado em",
@@ -130,27 +168,6 @@ const CustomerList = (props) => {
               />
             ),
           },
-          /*{
-            title: "Atualizado em",
-            field: "updatedAt",
-            render: ({ updatedAt }) =>
-              updatedAt && new Date(updatedAt).toLocaleDateString("pt-BR"),
-            filterComponent: (props) => (
-              <DatePicker
-                {...props}
-                format="dd/MM/yyyy"
-                InputLabelProps={{ shrink: true }}
-                placeholder="dd/mm/aaaa"
-                variant="inline"
-                value={props?.columnDef?.tableData?.filterValue || null}
-                disableFuture={true}
-                onChange={(e) =>
-                  props.onFilterChanged(props?.columnDef?.tableData?.id, e)
-                }
-                helperText={false}
-              />
-            ),
-          },*/
           { title: "Criado por", field: "createdBy" },
         ].filter((x) => x !== undefined)}
         actions={[
@@ -159,6 +176,12 @@ const CustomerList = (props) => {
             tooltip: "Editar",
             position: "row",
             onClick: (_, rowData) => navigate(`/cliente/editar/${rowData.id}`),
+          },
+          {
+            icon: SearchIcon,
+            tooltip: "Detalhes",
+            position: "row",
+            onClick: (_, rowData) => handleOpenModal(rowData), // Chama a função para abrir o modal
           },
         ]}
         editable={{
@@ -230,7 +253,6 @@ const CustomerList = (props) => {
               .catch((err) => reject(err));
           })
         }
-        onChangeRowsPerPage={onRowsPerPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         localization={localizationOptions}
         components={{
@@ -248,6 +270,13 @@ const CustomerList = (props) => {
         }}
         onSelectionChange={(rows) => setSelectedRows(rows)}
       />
+      {selectedRows && (
+        <ClientDetailsModal
+          open={openModal}
+          onClose={handleCloseModal}
+          selectedRows={selectedRows}
+        />
+      )}
     </ContentContainer>
   );
 };

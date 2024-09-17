@@ -163,7 +163,8 @@ export default function BasicTable() {
               .catch((err) => reject(err));
           })
         }
-        /*actions={[
+        /*
+        actions={[
           {
             icon: SearchIcon,
             tooltip: "Detalhes",
@@ -171,7 +172,6 @@ export default function BasicTable() {
             onClick: (_, rowData) => navigate(`/pedido/editar/${rowData.id}`),
           },
         ]}*/
-        onChangeRowsPerPage={onRowsPerPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         localization={localizationOptions}
         components={{

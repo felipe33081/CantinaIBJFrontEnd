@@ -1,7 +1,7 @@
 import { Modal, Grid, Typography, Button } from '@material-ui/core';
 import useStyles from './styles/style.modules';
 
-const ModalComponent = ({ open, onClose, title, subtitle, children, onClick = () => { }, buttonText, disabled, enableButton = true }) => {
+const ModalCustomerComponent = ({ open, onClose, title, subtitle, children, onClick = () => { }, buttonText, disabled, enableButton = true }) => {
 	const classes = useStyles();
 
 	return (
@@ -9,13 +9,10 @@ const ModalComponent = ({ open, onClose, title, subtitle, children, onClick = ()
 			open={open}
 			onClose={onClose}>
 			<div className={classes.paper}>
-				<button className='uk-modal-close-default disablePrint' type='button' onClick={onClose} data-uk-close></button>
 				<Grid container spacing={3}>
 					<Grid item xs={12}>
 						<div className={classes.header}>
 							<Typography variant="h4" style={{ color: "#5F5F5F", fontFamily: 'Arial', }}>{title}</Typography>
-							<br/>
-							{subtitle && <Typography component="h6" style={{ color: "#5F5F5F", fontFamily: 'sans-serif', }}>{subtitle}</Typography>}
 						</div>
 					</Grid>
 					<Grid item xs={12}>
@@ -23,9 +20,10 @@ const ModalComponent = ({ open, onClose, title, subtitle, children, onClick = ()
 							{children}
 							<br />
 							{enableButton &&
-								<Grid container justifyContent='center' spacing={5}>
+								<Grid  >
 									<Grid item xs={8}>
 										<Button
+                							className={classes.buttonFecharModel}
 											disabled={disabled}
 											variant="contained"
 											id='button-confirm'
@@ -42,4 +40,4 @@ const ModalComponent = ({ open, onClose, title, subtitle, children, onClick = ()
 	);
 };
 
-export default ModalComponent;
+export default ModalCustomerComponent;

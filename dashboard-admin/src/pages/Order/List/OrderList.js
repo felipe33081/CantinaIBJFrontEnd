@@ -15,6 +15,8 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import Helper from "../../../helpers/format.helpers";
 import { localizationOptions } from "../../../helpers/table.helpers.ts";
+import SearchIcon from '@mui/icons-material/Search';
+import OrderDetailsModal from "../../../components/Modal/OrderDetailsModal.jsx";
 
 const makeStyle = (statusDisplay) => {
   if (statusDisplay === "Finalizado") {
@@ -44,6 +46,16 @@ const OrderList = (props) => {
   const [enableFilter, setEnableFilter] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [customerNameGrid, setCustomerNameGrid] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = (rowData) => {
+    setSelectedRows(rowData); // Armazena os dados da linha selecionada
+    setOpenModal(true); // Abre o modal
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false); // Fecha o modal
+  };
 
   const onRowsPerPageChange = (page) => {
     setRowsPerPage(page);
@@ -76,7 +88,7 @@ const OrderList = (props) => {
             <div className="uk-width-auto@m uk-width-1-1">
               <Link
                 to="/pedido/novo"
-                
+
                 className="uk-button"
               >
                 <i
@@ -160,6 +172,12 @@ const OrderList = (props) => {
             position: "row",
             onClick: (_, rowData) => navigate(`/pedido/editar/${rowData.id}`),
           },
+          {
+            icon: SearchIcon,
+            tooltip: "Detalhes",
+            position: "row",
+            onClick: (_, rowData) => handleOpenModal(rowData), // Chama a função para abrir o modal
+          },
         ]}
         editable={{
           onRowDelete: (oldData) =>
@@ -236,7 +254,6 @@ const OrderList = (props) => {
               .catch((err) => reject(err));
           })
         }
-        onChangeRowsPerPage={onRowsPerPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         localization={localizationOptions}
         components={{
@@ -254,6 +271,13 @@ const OrderList = (props) => {
         }}
         onSelectionChange={(rows) => setSelectedRows(rows)}
       />
+      {selectedRows && (
+        <OrderDetailsModal
+          open={openModal}
+          onClose={handleCloseModal}
+          selectedRows={selectedRows}
+        />
+      )}
     </ContentContainer>
   );
 };

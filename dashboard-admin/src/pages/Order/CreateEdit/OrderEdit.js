@@ -35,6 +35,7 @@ import { fetchProductList } from "../../../services/Product/product";
 import { styled } from "@mui/system";
 import FormattedInputs from "../../Product/CreateEdit/FormattedInputs";
 import { ArrowBackOutlined } from "@material-ui/icons";
+import Helper from "../../../helpers/format.helpers.js";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -317,17 +318,17 @@ const OrderEdit = () => {
                 )}
                 {totalValue !== null && (
                   <p className="infos-order-fields">
-                    Valor Total: R$ {totalValue}
+                    Valor Total: {Helper.formatCurrencyAsIs(totalValue)}
                   </p>
                 )}
                 {paymentValue !== null && paymentValue !== 0 && (
                   <p className="infos-order-fields">
-                    Valor do Pagamento: R$ {paymentValue}
+                    Valor do Pagamento: {Helper.formatCurrencyAsIs(paymentValue)}
                   </p>
                 )}
                 {changeValue !== null && changeValue !== 0 && (
                   <p className="infos-order-fields">
-                    Valor do Troco: R${changeValue}
+                    Valor do Troco: {Helper.formatCurrencyAsIs(changeValue)}
                   </p>
                 )}
                 {paymentOfTypeDisplay !== null &&
@@ -580,11 +581,11 @@ const OrderEdit = () => {
                     required={true}
                   >
                     <MenuItem value={0}>Dinheiro</MenuItem>
-                    <MenuItem value={4}>Fiado</MenuItem>
+                    <MenuItem value={4}>Fiado(em conta)</MenuItem>
                     <MenuItem value={5}>Crédito na conta</MenuItem>
                     <MenuItem value={1}>PIX</MenuItem>
-                    <MenuItem value={2}>Cartão de Débito</MenuItem>
-                    <MenuItem value={3}>Cartão de Crédito</MenuItem>
+                    <MenuItem value={2}>Cartão de débito</MenuItem>
+                    <MenuItem value={3}>Cartão de crédito</MenuItem>
                   </Select>
 
                   <Grid>
