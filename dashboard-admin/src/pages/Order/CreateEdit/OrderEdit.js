@@ -323,7 +323,7 @@ const OrderEdit = () => {
                 )}
                 {paymentValue !== null && paymentValue !== 0 && (
                   <p className="infos-order-fields">
-                    Valor do Pagamento: {Helper.formatCurrencyAsIs(paymentValue)}
+                    Valor do Pagamento: {paymentValue}
                   </p>
                 )}
                 {changeValue !== null && changeValue !== 0 && (
