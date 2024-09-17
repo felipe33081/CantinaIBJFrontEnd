@@ -4,6 +4,7 @@ import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
 import {
   putCustomerEdit,
   getCustomerById,
+  putResetAccountCustomer
 } from "../../../services/Customer/customers";
 import { Box, TextField, Button, Grid, Typography } from "@material-ui/core";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,6 +12,7 @@ import { useHeader } from "../../../contexts/header";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 import { ArrowBackOutlined } from "@material-ui/icons";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const CustomerEdit = () => {
   const [customerLoaded, setCustomerLoaded] = useState(false);
@@ -54,7 +56,6 @@ const CustomerEdit = () => {
     };
     try {
       const response = await putCustomerEdit(id, customer);
-      console.log(response);
       navigate(`/cliente/editar/${id}`);
     } catch (error) {
       console.log(error);
@@ -64,6 +65,19 @@ const CustomerEdit = () => {
   const handleBack = async () => {
     navigate("/cliente");
   }
+
+  const handleResetAccount = async (event) => {
+    event.preventDefault();
+    try {
+      await putResetAccountCustomer(id);
+      setCustomerLoaded(true);
+      
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      setCustomerLoaded(false);
+    }
+  };
 
   return (
     <>
@@ -94,18 +108,6 @@ const CustomerEdit = () => {
                   sx={{ mb: 3 }}
                 />
               </Grid>
-              {/*<Grid item xs={12} sm={6}>
-                <TextField
-                  id="email"
-                  label="Email"
-                  fullWidth
-                  variant="outlined"
-                  value={email}
-                  placeholder="email@host.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                  sx={{ mb: 3 }}
-                />
-              </Grid>*/}
               <Grid item xs={12} sm={6}>
                 <PhoneMaskInput
                   id="phone"
@@ -137,6 +139,14 @@ const CustomerEdit = () => {
             <Button className="save-button" type="submit" variant="contained">
               <SaveOutlinedIcon style={{ color: "#fff" }} />
               Salvar
+            </Button>
+            <Button
+              className="buttonFinishOrder-tabpanel"
+              onClick={handleResetAccount}
+              variant="contained"
+            >
+              <CheckCircleOutlineIcon />
+              Zerar Conta - PAGO
             </Button>
           </form>
         </Box>

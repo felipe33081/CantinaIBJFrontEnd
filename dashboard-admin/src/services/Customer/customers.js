@@ -100,10 +100,34 @@ export const postCustomerCreate = async ( data ) => {
 	}
 }
 
-export const putCustomerEdit = async ( id, data ) => {
+export const putCustomerEdit = async ( id ) => {
     
     let token = await getToken();
     let url = Environment.BASE_URL + `/CustomerPerson/${id}`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try{
+        let result = await axios.put(url, config);
+        Toast.showSuccessMessage("Cliente atualizado com sucesso!");
+        return result.data;
+    }
+    catch (err) {
+		if (err?.response?.data?.errors) {
+			Toast.showErrorMessage(err.response.data.errors);
+		} else {
+			Toast.showErrorMessage("Não foi possível atualizar um cliente");
+		}
+		throw err;
+	}
+}
+
+export const putResetAccountCustomer = async ( id, data ) => {
+    
+    let token = await getToken();
+    let url = Environment.BASE_URL + `/CustomerPerson/${id}/resetAccount`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

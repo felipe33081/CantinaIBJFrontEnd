@@ -169,6 +169,28 @@ const CustomerList = (props) => {
             ),
           },
           { title: "Criado por", field: "createdBy" },
+          {
+            title: "Atualizado em",
+            field: "updatedAt",
+            render: ({ updatedAt }) =>
+              updatedAt && new Date(updatedAt).toLocaleDateString("pt-BR"),
+            filterComponent: (props) => (
+              <DatePicker
+                {...props}
+                format="dd/MM/yyyy"
+                InputLabelProps={{ shrink: true }}
+                placeholder="dd/mm/aaaa"
+                variant="inline"
+                value={props?.columnDef?.tableData?.filterValue || null}
+                disableFuture={true}
+                onChange={(e) =>
+                  props.onFilterChanged(props?.columnDef?.tableData?.id, e)
+                }
+                helperText={false}
+              />
+            ),
+          },
+          { title: "Atualizado por", field: "updatedBy" },
         ].filter((x) => x !== undefined)}
         actions={[
           {
