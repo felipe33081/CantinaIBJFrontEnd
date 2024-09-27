@@ -100,7 +100,7 @@ export const postCustomerCreate = async ( data ) => {
 	}
 }
 
-export const putCustomerEdit = async ( id ) => {
+export const putCustomerEdit = async ( id, data ) => {
     
     let token = await getToken();
     let url = Environment.BASE_URL + `/CustomerPerson/${id}`;
@@ -110,7 +110,7 @@ export const putCustomerEdit = async ( id ) => {
     }
 
     try{
-        let result = await axios.put(url, config);
+        let result = await axios.put(url, data, config);
         Toast.showSuccessMessage("Cliente atualizado com sucesso!");
         return result.data;
     }

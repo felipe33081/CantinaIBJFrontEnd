@@ -7,7 +7,7 @@ import {
   deleteOrderById,
 } from "../../../services/Order/order.js";
 import ActionBar from "../../../components/ActionBar/ActionBar.tsx";
-import { TablePagination, Button, Typography, Chip } from "@material-ui/core";
+import { TablePagination, Button, Typography, Chip, MenuItem, Grid, Select } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -41,12 +41,13 @@ const OrderList = (props) => {
   const { hideActions } = props;
   const navigate = useNavigate();
   const tableRef = React.useRef(null);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [customerNameGrid, setCustomerNameGrid] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   const handleOpenModal = (rowData) => {
     setSelectedRows(rowData); // Armazena os dados da linha selecionada
@@ -72,6 +73,10 @@ const OrderList = (props) => {
         });
     });
     setSelectedRows([]);
+  };
+
+  const handleFilterStatus = (event) => {
+    setSelectedStatus(event.target.value);
   };
 
   const actions = {
@@ -140,6 +145,21 @@ const OrderList = (props) => {
                 label={rowData.statusDisplay}
                 style={makeStyle(rowData.statusDisplay)}
               />
+            ),
+            filterComponent: (props) => (
+              <Select
+                value={props?.columnDef?.tableData?.filterValue || ""}
+                onChange={(event) => {
+                  props.onFilterChanged(props.columnDef.tableData.id, event.target.value);
+                }}
+                fullWidth
+              >
+                <MenuItem value="">Todos</MenuItem>
+                <MenuItem value="InProgress">Em andamento</MenuItem>
+                <MenuItem value="Finished">Finalizado</MenuItem>
+                <MenuItem value="Canceled">Cancelado</MenuItem>
+                <MenuItem value="Excluded">Excluído</MenuItem>
+              </Select>
             ),
           },
           {
@@ -232,6 +252,9 @@ const OrderList = (props) => {
               searchString: search,
               orderByField: orderBy?.field,
               orderByDirection: orderDirection,
+              status:
+                enableFilter &&
+                filters.find((f) => f.column.field === "statusDisplay")?.value,
             };
 
             getOrderList(filtersValues)

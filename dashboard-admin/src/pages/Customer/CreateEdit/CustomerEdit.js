@@ -13,6 +13,7 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { PhoneMaskInput } from "../../../components/PhoneMask/PhoneMask";
 import { ArrowBackOutlined } from "@material-ui/icons";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import FormattedInputs from "../../Product/CreateEdit/FormattedInputs.js";
 
 const CustomerEdit = () => {
   const [customerLoaded, setCustomerLoaded] = useState(false);
@@ -53,6 +54,7 @@ const CustomerEdit = () => {
       name,
       email,
       phone,
+      balance
     };
     try {
       const response = await putCustomerEdit(id, customer);
@@ -71,7 +73,7 @@ const CustomerEdit = () => {
     try {
       await putResetAccountCustomer(id);
       setCustomerLoaded(true);
-      
+
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -121,18 +123,12 @@ const CustomerEdit = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  id="balance"
+                <FormattedInputs
+                  //className="fieldsFinishOrder"
+                  onChange={(e) => setBalance(e.target.value)}
                   label="Saldo"
-                  fullWidth
-                  variant="outlined"
+                  price={balance}
                   required={true}
-                  value={balance.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                  disabled={true}
-                  sx={{ mb: 3 }}
                 />
               </Grid>
             </Grid>
