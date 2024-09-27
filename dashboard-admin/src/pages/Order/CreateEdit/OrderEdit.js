@@ -582,7 +582,7 @@ const OrderEdit = () => {
                   >
                     <MenuItem value={0}>Dinheiro</MenuItem>
                     <MenuItem value={4}>Fiado(em conta)</MenuItem>
-                    <MenuItem value={5}>Crédito na conta</MenuItem>
+                    <MenuItem value={5}>Deixar um valor positivo na conta</MenuItem>
                     <MenuItem value={1}>PIX</MenuItem>
                     <MenuItem value={2}>Cartão de débito</MenuItem>
                     <MenuItem value={3}>Cartão de crédito</MenuItem>
