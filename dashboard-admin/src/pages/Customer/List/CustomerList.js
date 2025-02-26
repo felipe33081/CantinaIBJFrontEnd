@@ -43,7 +43,7 @@ const CustomerList = (props) => {
   const { hideActions } = props;
   const navigate = useNavigate();
   const tableRef = React.useRef(null);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { setTitle } = useHeader();
   const [enableFilter, setEnableFilter] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -289,6 +289,8 @@ const CustomerList = (props) => {
           debounceInterval: 500,
           // searchAutoFocus: true,
           filtering: enableFilter,
+          exportButton: true,
+          padding: "dense"
         }}
         onSelectionChange={(rows) => setSelectedRows(rows)}
       />

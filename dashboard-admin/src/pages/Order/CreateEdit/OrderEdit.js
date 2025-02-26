@@ -152,16 +152,16 @@ const OrderEdit = () => {
   const handleRowUpdate = (newData, oldData) => {
     const updatedData = [...data];
     const index = oldData.tableData.id;
-  
+
     // Certifique-se de que a quantidade seja um número válido
     const quantity = Number(newData.quantity);
-  
+
     // Verifique se o preço está presente e é válido
     const price = parseFloat(newData.price.replace('R$', '').trim());
-  
+
     // Atualize o valor total do preço
     newData.priceTotalValue = `R$ ` + (price * quantity).toFixed(2);
-  
+
     updatedData[index] = newData;
     setData(updatedData);
   };
@@ -421,7 +421,9 @@ const OrderEdit = () => {
                       id="productId"
                       options={products}
                       getOptionLabel={(product) =>
-                        `${product.name} - ${product.description}`
+                        product.description?.trim()
+                          ? `${product.name} - ${product.description}`
+                          : product.name
                       }
                       value={selectedProduct} // Estado para armazenar o produto selecionado
                       onChange={(event, newValue) =>
@@ -513,9 +515,11 @@ const OrderEdit = () => {
                     variant="outlined"
                     options={{
                       actionsColumnIndex: -1,
+                      exportButton: true,
                       search: false,
                       paging: false,
-                      toolbar: false,
+                      toolbar: true,
+                      padding: "dense"
                     }}
                     editable={{
                       onRowDelete: (rowData) =>

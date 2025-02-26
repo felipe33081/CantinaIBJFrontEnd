@@ -291,6 +291,7 @@ const OrderList = (props) => {
           debounceInterval: 500,
           // searchAutoFocus: true,
           filtering: enableFilter,
+          padding: "dense"
         }}
         onSelectionChange={(rows) => setSelectedRows(rows)}
       />
